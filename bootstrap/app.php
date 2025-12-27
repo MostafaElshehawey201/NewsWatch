@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            "setApiLocalLang" => app\Http\Middleware\SetApiLocalLang::class,
+            "setApiLocalLang" => App\Http\Middleware\SetApiLocalLang::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
