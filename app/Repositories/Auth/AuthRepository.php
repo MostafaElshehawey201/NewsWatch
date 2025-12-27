@@ -6,8 +6,9 @@ use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Interfaces\Auth\AuthInterface;
+use App\Interfaces\Auth\AuthLoginInterface;
 
-class AuthRepository implements AuthInterface
+class AuthRepository implements AuthInterface , AuthLoginInterface
 {
     /**
      * Create a new class instance.
@@ -33,6 +34,21 @@ class AuthRepository implements AuthInterface
             ]);
             return $user;
         } catch (Exception $error) {
+            throw new Exception(($error->getMessage()));
+        }
+    }
+
+    public function MethodAuthLoginInterface($validationAuthRequestLogin){
+        try{
+            $user = User::where(function($query) use ($validationAuthRequestLogin){
+                $query->where('email' , $validationAuthRequestLogin['login'])
+                ->orWhere('phone' , $validationAuthRequestLogin['login']);
+            })->first();
+            if(!$user){
+                throw new Exception(__('authLogin.failed'));
+            }
+            return $user;
+        }catch(Exception $error){
             throw new Exception(($error->getMessage()));
         }
     }

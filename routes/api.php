@@ -5,5 +5,6 @@ use App\Http\Controllers\Auth\AuthController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
         Route::post("register" , [AuthController::class , 'register'])->middleware('setApiLocalLang');
+        Route::post('login' , [AuthController::class , 'login'])->middleware('setApiLocalLang');
     })
 ?>
