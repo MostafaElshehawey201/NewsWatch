@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Auth;
 
+use App\Interfaces\Auth\AuthCheckOtpInterface;
 use Exception;
 use App\Models\Otp;
 use App\Models\role;
@@ -11,7 +12,8 @@ use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthForgetPasswordInterface;
 
-class AuthRepository implements AuthInterface , AuthLoginInterface , AuthForgetPasswordInterface
+class AuthRepository implements AuthInterface , AuthLoginInterface 
+, AuthForgetPasswordInterface , AuthCheckOtpInterface
 {
     /**
      * Create a new class instance.
@@ -80,4 +82,27 @@ class AuthRepository implements AuthInterface , AuthLoginInterface , AuthForgetP
             throw new Exception($errors->getMessage());
         }
     }
+    public function methodCheckOtpInterface($validationAuthCheckOtpRequest){
+        try{
+            $otp = Otp::where('otp' , $validationAuthCheckOtpRequest['otp'])->first();
+            if(!$otp){
+                throw new Exception(__('authCheckOtp.failed'));
+            }
+            if($otp->expires_at < now()){
+                $otp->delete();
+                throw new Exception(__('authCheckOtp.expired'));
+            }
+            if($otp->is_used === 1){
+                throw new Exception(__('authCheckOtp.used'));
+            }
+            $otp->update([
+                "is_used" => 1,
+            ]);
+            $user = $otp->user;
+            return $user;
+        }catch(Exception $error){
+            throw new Exception(($error->getMessage()));
+        }
+    }
 }
+ 

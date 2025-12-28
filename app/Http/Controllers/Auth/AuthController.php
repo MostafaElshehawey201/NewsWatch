@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AuthCheckOtpRequest;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Http\Requests\Auth\AuthRequestForgetPassword;
 use App\Http\Requests\Auth\AuthRequestLogin;
@@ -68,5 +69,24 @@ class AuthController extends Controller
             ],422);
         }
 
+    }
+
+    public function checkOtp(AuthCheckOtpRequest $authCheckOtpRequest){
+        $validationAuthCheckOtpRequest = $authCheckOtpRequest->validated();
+        try{
+            $returnDataCheckOtFromService = $this->auth_service->methodCheckOtpInterface($validationAuthCheckOtpRequest);
+            return response()->json([
+                "success" => true,
+                "data-user" => $returnDataCheckOtFromService["user"],
+                "token" => $returnDataCheckOtFromService["token"],
+                "errors" => null,
+            ],200);
+        }catch(\Exception $error){
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $error->getMessage(),
+            ],422);
+        }
     }
 }
