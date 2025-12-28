@@ -28,6 +28,7 @@ class AuthRequest extends FormRequest
             "email" => ['required' , 'email' , 'max:255' , 'unique:users,email'],
             'phone' => ['required' , 'string' , 'digits_between:10,15' , 'unique:users,phone'],
             "password" => ['required' , 'string' , 'min:6' ],
+            "role_user" => ['sometimes' , 'string'],
         ];
     }
 

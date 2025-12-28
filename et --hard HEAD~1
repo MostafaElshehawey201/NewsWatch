@@ -1,0 +1,5 @@
+[33ma1e06bc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mgeneral[m[33m)[m step is the sanctum and create token for user after login successfully
+[33md66fd65[m[33m ([m[1;31morigin/general[m[33m, [m[1;31morigin/Auth[m[33m, [m[1;32mAuth[m[33m)[m The login has been completed. The next step is the sanctum.
+[33mac19924[m The register was enabled and the localization problem was resolved, as the error was in the app during its definition in Bootstrap.
+[33m41761c8[m[33m ([m[1;31morigin/localization[m[33m, [m[1;32mlocalization[m[33m)[m Add localization support (Arabic & English)
+[33m72a8925[m first commit general project

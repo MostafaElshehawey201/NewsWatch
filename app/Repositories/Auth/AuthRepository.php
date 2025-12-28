@@ -3,6 +3,7 @@
 namespace App\Repositories\Auth;
 
 use Exception;
+use App\Models\role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Interfaces\Auth\AuthInterface;
@@ -31,6 +32,10 @@ class AuthRepository implements AuthInterface , AuthLoginInterface
                 "email" => $validateAuth['email'],
                 "phone" => $validateAuth['phone'],
                 "password" => Hash::make($validateAuth['password']),
+            ]);
+            role::create([
+                "user_id" => $user->id,
+                "role_user" => $validateAuth['role_user'] ?? 'visitor'
             ]);
             return $user;
         } catch (Exception $error) {

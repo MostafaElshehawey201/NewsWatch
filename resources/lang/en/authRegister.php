@@ -23,6 +23,7 @@ return [
     'password.min'        => 'Password must be at least 6 characters.',
     'password.confirmed'  => 'Password confirmation does not match.',
 
+
     "Media_reporter" => "Media Reporter",
     "visitor" => "Visitor",
     "signup" => "Sign Up",
