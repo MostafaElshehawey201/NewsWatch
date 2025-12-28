@@ -3,13 +3,15 @@
 namespace App\Repositories\Auth;
 
 use Exception;
+use App\Models\Otp;
 use App\Models\role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
+use App\Interfaces\Auth\AuthForgetPasswordInterface;
 
-class AuthRepository implements AuthInterface , AuthLoginInterface
+class AuthRepository implements AuthInterface , AuthLoginInterface , AuthForgetPasswordInterface
 {
     /**
      * Create a new class instance.
@@ -55,6 +57,27 @@ class AuthRepository implements AuthInterface , AuthLoginInterface
             return $user;
         }catch(Exception $error){
             throw new Exception(($error->getMessage()));
+        }
+    }
+    
+    public function methodAuthForgetPAsswordInterface($validationAuthRequestForgetPassword){
+        try{
+            $user = User::where(function($query) use ($validationAuthRequestForgetPassword){
+                $query->where('email' , $validationAuthRequestForgetPassword['login'])
+                ->orWhere('phone' , $validationAuthRequestForgetPassword['login']);
+            })->first();
+            if(!$user){
+                throw new Exception(__('authLogin.failed'));
+            }
+            $otp = rand(100000 , 999999);
+            Otp::create([
+                "user_id" => $user->id,
+                "otp" => $otp,
+                "expires_at" => now()->addMinutes(2),
+            ]);
+            return $otp;
+        }catch(Exception $errors){
+            throw new Exception($errors->getMessage());
         }
     }
 }

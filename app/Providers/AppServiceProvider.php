@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Auth\AuthForgetPasswordInterface;
 use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
 use App\Repositories\Auth\AuthRepository;
@@ -20,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             AuthLoginInterface::class,
+            AuthRepository::class,
+        );
+        $this->app->bind(
+            AuthForgetPasswordInterface::class,
             AuthRepository::class,
         );
     } 

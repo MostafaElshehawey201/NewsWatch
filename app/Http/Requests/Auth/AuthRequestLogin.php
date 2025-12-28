@@ -62,6 +62,7 @@ class AuthRequestLogin extends FormRequest
          throw new HttpResponseException(
         response()->json([
             'success' => false,
+            'data' => null,
             'errors' => $errors,
         ], 422)
     );
