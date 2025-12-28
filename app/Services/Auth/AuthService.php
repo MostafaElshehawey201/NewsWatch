@@ -6,9 +6,10 @@ use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthCheckOtpInterface;
 use App\Interfaces\Auth\AuthForgetPasswordInterface;
+use App\Interfaces\Auth\AuthResetPasswordInterface;
 
 class AuthService implements AuthInterface , AuthLoginInterface 
-, AuthForgetPasswordInterface , AuthCheckOtpInterface
+, AuthForgetPasswordInterface , AuthCheckOtpInterface , AuthResetPasswordInterface
 {
     /**
      * Create a new class instance.
@@ -17,12 +18,17 @@ class AuthService implements AuthInterface , AuthLoginInterface
     protected $sendDataLoginFromServiceToRepositoryByInterface;
     public $sendDataForgetPasswordFromServiceToRepositoryByInterface;
     public $sendDataCheckOtpFromServiceToRepositoryByInterface;
-    public function __construct(AuthInterface $authInterface , AuthLoginInterface $authLoginInterface , AuthForgetPasswordInterface $authForgetPasswordInterface , AuthCheckOtpInterface $authCheckOtpInterface)
+    public $sendDataResetPasswordFromServiceToRepositoryByInterface;
+    public function __construct(AuthInterface $authInterface , AuthLoginInterface $authLoginInterface 
+    , AuthForgetPasswordInterface $authForgetPasswordInterface , 
+    AuthCheckOtpInterface $authCheckOtpInterface ,
+    AuthResetPasswordInterface $authResetPasswordInterface)
     {
         $this->sendDataFromServiceToRepositoryByInterface = $authInterface;
         $this->sendDataLoginFromServiceToRepositoryByInterface = $authLoginInterface;
         $this->sendDataForgetPasswordFromServiceToRepositoryByInterface = $authForgetPasswordInterface;
         $this->sendDataCheckOtpFromServiceToRepositoryByInterface = $authCheckOtpInterface;
+        $this->sendDataResetPasswordFromServiceToRepositoryByInterface = $authResetPasswordInterface;
     }
 
     public function MethodRegisterInterface($validateAuth){
@@ -51,5 +57,10 @@ class AuthService implements AuthInterface , AuthLoginInterface
             "user" => $returnUserDataCheckOtpFromRepository,
             "token" => $token,
         ];
+    }
+
+    public function methodResetPasswordInterface($authResetPasswordRequest , $request){
+        $returnDataResetPasswordFromRepository = $this->sendDataResetPasswordFromServiceToRepositoryByInterface->methodResetPasswordInterface($authResetPasswordRequest , $request);
+        return $returnDataResetPasswordFromRepository;
     }
 }

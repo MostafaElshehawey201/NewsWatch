@@ -6,6 +6,7 @@ use App\Interfaces\Auth\AuthCheckOtpInterface;
 use App\Interfaces\Auth\AuthForgetPasswordInterface;
 use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
+use App\Interfaces\Auth\AuthResetPasswordInterface;
 use App\Repositories\Auth\AuthRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             AuthCheckOtpInterface::class,
+            AuthRepository::class,
+        );
+        $this->app->bind(
+            AuthResetPasswordInterface::class,
             AuthRepository::class,
         );
     } 

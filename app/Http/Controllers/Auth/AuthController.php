@@ -7,86 +7,114 @@ use App\Http\Requests\Auth\AuthCheckOtpRequest;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Http\Requests\Auth\AuthRequestForgetPassword;
 use App\Http\Requests\Auth\AuthRequestLogin;
+use App\Http\Requests\Auth\AuthResetPasswordRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function __construct(protected AuthService $auth_service){
-        
-    }
-   
-    public function register(AuthRequest $authRequest){
+    public function __construct(protected AuthService $auth_service) {}
+
+    public function register(AuthRequest $authRequest)
+    {
         $validateAuth = $authRequest->validated();
-        try{
-        $returnDataFromService = $this->auth_service->MethodRegisterInterface($validateAuth);
-        return response()->json([
-            "success" => true,
-            "data" => $returnDataFromService,
-            "errors" => null,
-        ],201);
-        }catch(\Exception $error){
+        try {
+            $returnDataFromService = $this->auth_service->MethodRegisterInterface($validateAuth);
+            return response()->json([
+                "success" => true,
+                "data" => $returnDataFromService,
+                "errors" => null,
+            ], 201);
+        } catch (\Exception $error) {
             return response()->json([
                 "success" => false,
                 "data-user" => null,
                 "errors" => $error->getMessage(),
-            ],422);
-        }     
-    }
-
-    public function login(AuthRequestLogin $authRequestLogin){
-        $validationAuthRequestLogin = $authRequestLogin->validated();
-        try{
-        $returnDataLoginFromService = $this->auth_service->MethodAuthLoginInterface($validationAuthRequestLogin);
-        return response()->json([
-            "success" => true,
-            "data-user" => $returnDataLoginFromService,
-            "errors" => null,
-        ] , 200);
-        }catch(\Exception $error){
-            return response()->json([
-                "success"=> false,
-                "data" => null,
-                "errors" => $error->getMessage(),
-            ],422);
+            ], 422);
         }
     }
 
-    public function forgetPassword(AuthRequestForgetPassword $authRequestForgetPassword){
+    public function login(AuthRequestLogin $authRequestLogin)
+    {
+        $validationAuthRequestLogin = $authRequestLogin->validated();
+        try {
+            $returnDataLoginFromService = $this->auth_service->MethodAuthLoginInterface($validationAuthRequestLogin);
+            return response()->json([
+                "success" => true,
+                "data-user" => $returnDataLoginFromService,
+                "errors" => null,
+            ], 200);
+        } catch (\Exception $error) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $error->getMessage(),
+            ], 422);
+        }
+    }
+
+    public function forgetPassword(AuthRequestForgetPassword $authRequestForgetPassword)
+    {
         $validationAuthRequestForgetPassword = $authRequestForgetPassword->validated();
-        try{
+        try {
             $returnDataForgetPasswordFromService = $this->auth_service->methodAuthForgetPAsswordInterface($validationAuthRequestForgetPassword);
             return response()->json([
                 "success" => true,
                 "otp" => $returnDataForgetPasswordFromService,
                 "errors" => null,
-            ] ,200);
-        }catch(\Exception $error){
+            ], 200);
+        } catch (\Exception $error) {
             return response()->json([
                 "success" => false,
                 "data" => null,
                 "errors" => $error->getMessage(),
-            ],422);
+            ], 422);
         }
-
     }
 
-    public function checkOtp(AuthCheckOtpRequest $authCheckOtpRequest){
+    public function checkOtp(AuthCheckOtpRequest $authCheckOtpRequest)
+    {
         $validationAuthCheckOtpRequest = $authCheckOtpRequest->validated();
-        try{
+        try {
             $returnDataCheckOtFromService = $this->auth_service->methodCheckOtpInterface($validationAuthCheckOtpRequest);
             return response()->json([
                 "success" => true,
                 "data-user" => $returnDataCheckOtFromService["user"],
                 "token" => $returnDataCheckOtFromService["token"],
                 "errors" => null,
-            ],200);
-        }catch(\Exception $error){
+            ], 200);
+        } catch (\Exception $error) {
             return response()->json([
                 "success" => false,
                 "data" => null,
                 "errors" => $error->getMessage(),
-            ],422);
+            ], 422);
+        }
+    }
+
+    public function resetPassword(Request $request, AuthResetPasswordRequest $authResetPasswordRequest)
+    {
+        $validationAuthResetPasswordRequest = $authResetPasswordRequest->validated();
+        $returnDataResetPasswordFromService = $this->auth_service->methodResetPasswordInterface($validationAuthResetPasswordRequest, $request);
+        try {
+            return response()->json(
+                [
+                    "success" => true,
+                    "data" => $returnDataResetPasswordFromService,
+                    "message" => __('authResetPassword.password.reset'),
+                    "errors" => null,
+                ],
+                200
+            );
+        } catch (\Exception $error) {
+            return response()->json(
+                [
+                    "success" => false,
+                    "data" => null,
+                    "errors" => $error->getMessage(),
+                ],
+                422
+            );
         }
     }
 }

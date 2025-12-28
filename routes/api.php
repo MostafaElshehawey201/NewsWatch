@@ -8,5 +8,6 @@ use App\Http\Controllers\Auth\AuthController;
         Route::post('login' , [AuthController::class , 'login'])->middleware('setApiLocalLang');
         Route::post("forget-password" , [AuthController::class , 'forgetPassword'])->middleware('setApiLocalLang');
         Route::post('check-otp' , [AuthController::class , 'checkOtp'])->middleware('setApiLocalLang');
+        Route::post('reset-password' , [AuthController::class , 'resetPassword'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
     })
 ?>
