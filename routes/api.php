@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
@@ -9,5 +10,8 @@ use App\Http\Controllers\Auth\AuthController;
         Route::post("forget-password" , [AuthController::class , 'forgetPassword'])->middleware('setApiLocalLang');
         Route::post('check-otp' , [AuthController::class , 'checkOtp'])->middleware('setApiLocalLang');
         Route::post('reset-password' , [AuthController::class , 'resetPassword'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
+    });
+    Route::middleware('api')->prefix('user')->group(function(){
+        Route::get('profile' , [UserController::class , 'profile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
     })
 ?>
