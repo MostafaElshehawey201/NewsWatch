@@ -47,11 +47,11 @@ class UserController extends Controller
         }
     }
 
-    public function updateProfile(updateProfileRequest $updateProfileRequest)
+    public function updateProfile(updateProfileRequest $updateProfileRequest , $profile_id)
     {
         $validationUpdateProfileRequest = $updateProfileRequest->validated();
         try {
-            $returnDataProfileUpdateFromService = $this->updateProfileService->methodUpdateProfileInterface($updateProfileRequest , $updateProfileRequest);
+            $returnDataProfileUpdateFromService = $this->updateProfileService->methodUpdateProfileInterface($validationUpdateProfileRequest , $updateProfileRequest , $profile_id);
             return response()->json([
                 "success" => true,
                 "update-data-user" => $returnDataProfileUpdateFromService,
@@ -61,7 +61,7 @@ class UserController extends Controller
             return response()->json([
                 "success" => false,
                 "data" => null,
-                "error" => $errors->getMessage()
+                "errors" => $errors->getMessage()
             ], 422);
         }
     }

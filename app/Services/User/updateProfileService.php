@@ -14,8 +14,8 @@ class updateProfileService implements updateProfileInterface
     {
         $this->sendDataUpdateProfileFromServiceToRepositoryByInterface = $updateProfileInterface;
     }
-    public function methodUpdateProfileInterface($validationUpdateProfileRequest , $updateProfileRequest){
-        $returnDataUpdateProfileFromRepository = $this->sendDataUpdateProfileFromServiceToRepositoryByInterface->methodUpdateProfileInterface($validationUpdateProfileRequest , $updateProfileRequest);
+    public function methodUpdateProfileInterface($validationUpdateProfileRequest , $updateProfileRequest , $profile_id ){
+        $returnDataUpdateProfileFromRepository = $this->sendDataUpdateProfileFromServiceToRepositoryByInterface->methodUpdateProfileInterface($validationUpdateProfileRequest , $updateProfileRequest , $profile_id);
         return $returnDataUpdateProfileFromRepository;
     }
 }

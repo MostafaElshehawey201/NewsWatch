@@ -31,7 +31,8 @@ class updateProfileRequest extends FormRequest
             "experience" => "nullable|string|min:3|max:255",
             "job_title"  => "nullable|string|min:3|max:255",
             "name_governorate" => "nullable|string|min:3|max:255",
-            "name_city"        => "nullable|string|min:3|max:255", 
+            "name_city"        => "nullable|string|min:3|max:255",
+            "image" => "nullable|image|mimes:jpg,jpeg,png,webp|max:2048",
         ];
     }
 
@@ -54,6 +55,9 @@ class updateProfileRequest extends FormRequest
             "name_city.string" => __('updateProfile.name_city.string'),
             "name_city.min" => __('updateProfile.name_city.min'),
             "name_city.max" => __('updateProfile.name_city.max'),
+            "image.image" => __('updateProfile.image.image'),
+            'image.max' => __('updateProfile.image.max'),
+            "image.mimes" => __('updateProfile.image.mimes'),
         ];
     }
 

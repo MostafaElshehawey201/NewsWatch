@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UpdateUser extends Model
 {
     protected $fillable = [
-        "experience" , 'job_title' , 'image' , 'user_id',
+        'job_title' , 'image' , 'user_id',
     ];
 
     public function user(){

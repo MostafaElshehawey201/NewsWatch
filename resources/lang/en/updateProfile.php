@@ -23,4 +23,9 @@ return [
     'name_city.string' => 'The city name must be a valid string.',
     'name_city.min'    => 'The city name must be at least 3 characters.',
     'name_city.max'    => 'The city name may not be greater than 255 characters.',
+
+    'update_successfully' => "Your account details have been successfully updated.",
+    'image.image' => 'The uploaded file must be an image.',
+    'image.mimes' => 'The image must be a file of type: jpg, jpeg, png, or webp.',
+    'image.max'   => 'The image size must not exceed 2 MB.',
 ];
