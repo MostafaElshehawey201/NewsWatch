@@ -7,7 +7,9 @@ use App\Interfaces\Auth\AuthForgetPasswordInterface;
 use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthResetPasswordInterface;
+use App\Interfaces\User\updateProfileInterface;
 use App\Repositories\Auth\AuthRepository;
+use App\Repositories\User\updateProfileRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AuthResetPasswordInterface::class,
             AuthRepository::class,
+        );
+        $this->app->bind(
+            updateProfileInterface::class,
+            updateProfileRepository::class
         );
     } 
 

@@ -32,6 +32,13 @@ class User extends Authenticatable
     public function otps(){
         return $this->hasMany(Otp::class);
     }
+    public function updateUser(){
+        return $this->hasOne(UpdateUser::class);
+    }
+
+    public function governorate(){
+        return $this->hasMany(Governorate::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
