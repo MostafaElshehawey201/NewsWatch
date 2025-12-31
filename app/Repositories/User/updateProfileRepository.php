@@ -55,14 +55,12 @@ class updateProfileRepository implements updateProfileInterface
             );
 
             $governorate = Governorate::updateOrCreate(
-                ['user_id' => $user->id],
                 [
                     'name_governorate' => $validationUpdateProfileRequest['name_governorate'] ?? null,
                 ]
             );
 
             City::updateOrCreate(
-                ['user_id' => $user->id],
                 [
                     'name_city'      => $validationUpdateProfileRequest['city'] ?? null,
                     'governorate_id' => $governorate->id,

@@ -14,11 +14,11 @@ class GovernorateSeeder extends Seeder
     public function run(): void
     {
           DB::table('governorates')->insert([
-            ['id' => 1, 'name' => 'القاهرة'],
-            ['id' => 2, 'name' => 'الجيزة'],
-            ['id' => 3, 'name' => 'الإسكندرية'],
-            ['id' => 4, 'name' => 'الدقهلية'],
-            ['id' => 5, 'name' => 'الشرقية'],
+            ['id' => 1, 'name_governorate' => 'القاهرة'],
+            ['id' => 2, 'name_governorate' => 'الجيزة'],
+            ['id' => 3, 'name_governorate' => 'الإسكندرية'],
+            ['id' => 4, 'name_governorate' => 'الدقهلية'],
+            ['id' => 5, 'name_governorate' => 'الشرقية'],
         ]);
     }
 }

@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             //الجدول دا بيتحتوي علي اسم المحافظة فقط
             $table->string('name_governorate')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
         });
     }

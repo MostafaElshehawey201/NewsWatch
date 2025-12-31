@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\City;
 use App\Models\User;
+use App\Models\Governorate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\updateProfileRequest;
-use App\Services\User\updateProfileService;
 use Illuminate\Support\Facades\Auth;
+use App\Services\User\updateProfileService;
+use App\Http\Requests\User\updateProfileRequest;
 
 class UserController extends Controller
 {
@@ -47,6 +49,39 @@ class UserController extends Controller
         }
     }
 
+    public function governorate(){
+        try{
+            $governorates = Governorate::all();
+            return response()->json([
+                "success" => true ,
+                "data" => $governorates,
+                "errors" => null,
+            ],200);
+        }catch(\Exception $errors){
+            return response()->json([
+                "success" => false,
+                "data" => null ,
+                "errors" => $errors->getMessage(),
+            ],422);
+        }
+    }
+
+    public function city(){
+        try{
+            $cities = City::all();
+            return response()->json([
+                "success" => true ,
+                "data" => $cities,
+                "errors" => null,
+            ],200);
+        }catch(\Exception $errors){
+            return response()->json([
+                "success" => false,
+                "data" => null ,
+                "errors" => $errors->getMessage(),
+            ],422);
+        }
+    }
     public function updateProfile(updateProfileRequest $updateProfileRequest , $profile_id)
     {
         $validationUpdateProfileRequest = $updateProfileRequest->validated();
@@ -56,13 +91,29 @@ class UserController extends Controller
                 "success" => true,
                 "update-data-user" => $returnDataProfileUpdateFromService,
                 "error" => null,
-            ], 200);
+            ], 201);
         } catch (\Exception $errors) {
             return response()->json([
                 "success" => false,
                 "data" => null,
                 "errors" => $errors->getMessage()
             ], 422);
+        }
+    }
+
+    public function logout(Request $request){
+        try{
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                "success" => true,
+                "message" => __('logout.logout'),
+                "errors"=> null,
+            ],200);
+        }catch(\Exception $errors){
+            return response()->json([
+                "success"=>false,
+                "errors" => $errors->getMessage(),
+            ],422);
         }
     }
 }

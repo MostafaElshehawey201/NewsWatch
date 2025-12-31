@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\UserController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
         Route::post("register" , [AuthController::class , 'register'])->middleware('setApiLocalLang');
@@ -13,7 +13,10 @@ use App\Http\Controllers\Auth\AuthController;
     });
     Route::middleware('api')->prefix('user')->group(function(){
         Route::get('profile' , [UserController::class , 'profile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
+        Route::get('governorate' , [UserController::class , 'governorate'])->middleware('auth:sanctum');
+        Route::get('city' , [UserController::class , 'city'])->middleware('auth:sanctum');
         Route::get('edit-profile/{profile_id}' , [UserController::class , 'editProfile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
         Route::post('update-profile/{profile_id}' , [UserController::class , 'updateProfile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
+        Route::post('logout' , [UserController::class, 'logout'])->middleware('auth:sanctum');
     })
 ?>

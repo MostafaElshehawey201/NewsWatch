@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('name_city')->nullable();
             $table->unsignedBigInteger('governorate_id')->nullable();
             $table->foreign('governorate_id')->references('id')->on('governorates')->nullOnDelete();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
         });
     }
