@@ -40,6 +40,10 @@ class User extends Authenticatable
         return $this->hasMany(Governorate::class);
     }
 
+    public function category(){
+        return $this->hasMany(Category::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\UserController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
@@ -18,5 +19,9 @@ use App\Http\Controllers\User\UserController;
         Route::get('edit-profile/{profile_id}' , [UserController::class , 'editProfile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
         Route::post('update-profile/{profile_id}' , [UserController::class , 'updateProfile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
         Route::post('logout' , [UserController::class, 'logout'])->middleware('auth:sanctum');
+    });
+    Route::middleware('api')->prefix('category')->controller(CategoryController::class)
+    ->group(function(){
+        Route::get('categories' , 'categories')->middleware('setApiLocalLang');
     })
 ?>
