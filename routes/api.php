@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\User\UserController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
@@ -22,6 +22,7 @@ use App\Http\Controllers\User\UserController;
     });
     Route::middleware('api')->prefix('category')->controller(CategoryController::class)
     ->group(function(){
-        Route::get('categories' , 'categories')->middleware('setApiLocalLang');
+        Route::get('categories' , 'categories')->middleware('auth:sanctum');
+        Route::get('categories/{category_id}/sub-category' , 'subCategory')->middleware('auth:sanctum');
     })
 ?>
