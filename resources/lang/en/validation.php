@@ -53,4 +53,6 @@ return [
     'image.max'   => 'The image size must not exceed 2 MB.',
 
     'title.string' => "Title must be String",
+    'body.string' => 'Body must be string',
+    'post.create' => 'Your post has been successfully created',
 ];

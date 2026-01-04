@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\Post;
 
+use Exception;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpKernel\HttpKernelBrowser;
 
 class PostCreateRequest extends FormRequest
 {
@@ -27,9 +31,29 @@ class PostCreateRequest extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            
+            "title.string" => __('validation.title.string'),
+            "body.string" => __('validation.body.string'),
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        $errors = [];
+        foreach ($validator->errors()->getMessages() as $failed => $messages) {
+            $errors[$failed][] = [
+                "message" => $messages[0],
+            ];
+            break;
+        }
+        throw new HttpResponseException(
+            response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $errors,
+            ], 422)
+        );
     }
 }
