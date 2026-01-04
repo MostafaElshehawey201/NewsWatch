@@ -32,10 +32,10 @@ class AuthRepository implements
     {
         try {
             if (User::where('email', $validateAuth['email'])->exists()) {
-                throw new Exception(__('authRegister.email.unique'));
+                throw new Exception(__('validation.email.unique'));
             }
             if (User::where('phone', $validateAuth['phone'])->exists()) {
-                throw new Exception(__('authRegister.phone.unique'));
+                throw new Exception(__('validation.phone.unique'));
             }
             $user = User::create([
                 "name" => $validateAuth['name'],
@@ -61,7 +61,7 @@ class AuthRepository implements
                     ->orWhere('phone', $validationAuthRequestLogin['login']);
             })->first();
             if (!$user) {
-                throw new Exception(__('authLogin.failed'));
+                throw new Exception(__('validation.failed'));
             }
             return $user;
         } catch (Exception $error) {
@@ -77,7 +77,7 @@ class AuthRepository implements
                     ->orWhere('phone', $validationAuthRequestForgetPassword['login']);
             })->first();
             if (!$user) {
-                throw new Exception(__('authLogin.failed'));
+                throw new Exception(__('validation.failed'));
             }
             $otp = rand(100000, 999999);
             Otp::create([
@@ -95,14 +95,14 @@ class AuthRepository implements
         try {
             $otp = Otp::where('otp', $validationAuthCheckOtpRequest['otp'])->first();
             if (!$otp) {
-                throw new Exception(__('authCheckOtp.failed'));
+                throw new Exception(__('validation.failed_otp'));
             }
             if ($otp->expires_at < now()) {
                 $otp->delete();
-                throw new Exception(__('authCheckOtp.expired'));
+                throw new Exception(__('validation.expired'));
             }
             if ($otp->is_used === 1) {
-                throw new Exception(__('authCheckOtp.used'));
+                throw new Exception(__('validation.used'));
             }
             $otp->update([
                 "is_used" => 1,

@@ -30,41 +30,42 @@ class AuthRequestLogin extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return  [
-            "login.required" => __("authLogin.login.required"),
-            "password.required" => __("authLogin.password.required"),
-            "password.min" => __("authLogin.password.min"),
+            "login.required" => __("validation.login.required"),
+            "password.required" => __("validation.password.required"),
+            "password.min" => __("validation.password.min"),
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         $errors = [];
-        $validationMessages = Lang::get('authLogin');
-        foreach($validator->errors()->getMessages() as $field => $messages){
-            foreach($messages as $message){
-                $foundMessage  = $message;
-
-                if(is_array($validationMessages)){
-                    foreach($validationMessages as $value){
-                        if(is_array($value) && isset($value['message']) && $value['message'] === $message){
-                            $foundMessage = $value['message'];
-                            break;
+        $validationMessages = Lang::get('validation');
+        foreach ($validator->errors()->getMessages() as $field => $messages) {
+            foreach ($messages as $message) {
+                $errors[$field][] = [
+                    "message" => $message,
+                ];
+                break;
+                if (is_array($validationMessages)) {
+                    foreach ($validationMessages as $value) {
+                        if (is_array($value) && isset($value['message']) && $value['message'] === $message) {
+                            $errors[$field][] = [
+                                "message" => $value['message'],
+                            ];
                         }
                     }
                 }
-                $errors[$field][] = [
-                    "message" => $foundMessage,
-                ];
             }
         }
-         throw new HttpResponseException(
-        response()->json([
-            'success' => false,
-            'data' => null,
-            'errors' => $errors,
-        ], 422)
-    );
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'data' => null,
+                'errors' => $errors,
+            ], 422)
+        );
     }
 }

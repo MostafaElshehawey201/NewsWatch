@@ -30,36 +30,42 @@ class AuthCheckOtpRequest extends FormRequest
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-
+            "otp.required" => __('validation.otp.required'),
+            "otp.digits" => __('validation.otp.digits'),
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
-        $errors =[];
-        $validationMessages = Lang::get('authCheckOtp');
-        foreach($validator->errors()->messages() as $field => $messages){
-            foreach($messages as $message){
-                $foundMessage = $message;
-                foreach ($validationMessages as $value){
-                    if(is_array($value) && (isset($value['message'])) && $value['message'] === $message){
-                        $foundMessage = $value['message'];
-                        break;
+        $errors = [];
+        $validationMessages = Lang::get('validation');
+        foreach ($validator->errors()->messages() as $field => $messages) {
+            foreach ($messages as $message) {
+                $errors[$field][] = [
+                    "message" => $message,
+                ];
+                break;
+                if (is_array($validationMessages)) {
+                    foreach ($validationMessages as $value) {
+                        if (is_array($value) && (isset($value['messages'])) && $value['messages'] === $message) {
+                            $errors[$field][] = [
+                                "message" => $value['messages'],
+                            ];
+                        }
                     }
                 }
-                $errors[$field][] = [
-                    "message" => $foundMessage,
-                ];
             }
         }
+
         throw new HttpResponseException(
             response()->json([
                 "success" => false,
                 "data" => null,
                 "errors" => $errors,
-            ],422)
+            ], 422)
         );
     }
 }

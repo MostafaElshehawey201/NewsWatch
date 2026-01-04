@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Posts\PostController;
+use App\Http\Controllers\Categories\CategoryController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
         Route::post("register" , [AuthController::class , 'register'])->middleware('setApiLocalLang');
@@ -24,5 +25,8 @@ use App\Http\Controllers\User\UserController;
     ->group(function(){
         Route::get('categories' , 'categories')->middleware('auth:sanctum');
         Route::get('categories/{category_id}/sub-category' , 'subCategory')->middleware('auth:sanctum');
-    })
+    });
+    Route::middleware(['api' , 'auth:sanctum'])->prefix('post')->group(function(){
+        Route::post('create' , [PostController::class , 'createPost']);
+    });
 ?>

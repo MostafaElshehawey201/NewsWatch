@@ -31,27 +31,32 @@ class AuthResetPasswordRequest extends FormRequest
 
     public function messages()
     {
-        return [];
+        return [
+            "password.required" => __('validation.password.required'),
+            "password.string" => __('validation.password.string'),
+            "password.min" => __('validation.password.min'),
+        ];
     }
 
     public function failedValidation(Validator $validator)
     {
         $errors = [];
-        $validationMessages = Lang::get('authResetPassword');
+        $validationMessages = Lang::get('validation');
         foreach ($validator->errors()->getMessages() as $field => $messages) {
             foreach ($messages as $message) {
-                $foundMessage = $message;
+                $errors[$field][] = [
+                    "message" => $message,
+                ];
+                break;
                 if (is_array($validationMessages)) {
                     foreach ($validationMessages as $value) {
                         if (is_array($value) && isset($value['message']) && $value['message'] === $message) {
-                            $foundMessage = $value['message'];
-                            break;
+                            $errors[$field][] = [
+                                "message" => $value['message'],
+                            ];
                         }
                     }
                 }
-                $errors[$field][] = [
-                    "message" => $foundMessage,
-                ];
             }
         }
         throw new HttpResponseException(

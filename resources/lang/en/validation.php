@@ -1,5 +1,28 @@
 <?php
 return [
+    "otp.required" => "must enter the verification code sent to you to be able to change your password",
+    "otp.digits" => "the verification code must be mode up of 6 digits only",
+    "failed_otp" => "the verification code you entered is incorrect , please try again",
+    "expired" => "the verification code has expired , please request a new code",
+    "used" => "this verification code has been used before",
+    "login.required" => "you can enter email or phone number to receive a verification code to change the password",
+    "password.required" => "password id required",
+    "password.min" => "password must be at least 8 characters",
+    "password.string" => "password must not contain special characters",
+    "failed" => "login credentials are incorrect",
+    'phone.required'        => 'Phone number is required.',
+    'phone.digits_between'  => 'Phone number must be between 10 and 15 digits.',
+    'phone.unique'          => 'Phone number already exists.',
+
+
+    // password
+    'password.confirmed'  => 'Password confirmation does not match.',
+
+
+    "Media_reporter" => "Media Reporter",
+    "visitor" => "Visitor",
+    "signup" => "Sign Up",
+    "logout" => "logout successfully",
     'name.string' => 'The name must be a valid string.',
     'name.min'    => 'The name must be at least 3 characters.',
     'name.max'    => 'The name may not be greater than 255 characters.',
@@ -28,4 +51,6 @@ return [
     'image.image' => 'The uploaded file must be an image.',
     'image.mimes' => 'The image must be a file of type: jpg, jpeg, png, or webp.',
     'image.max'   => 'The image size must not exceed 2 MB.',
+
+    'title.string' => "Title must be String",
 ];

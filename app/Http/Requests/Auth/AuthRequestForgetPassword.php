@@ -32,7 +32,7 @@ class AuthRequestForgetPassword extends FormRequest
     public function messages()
     {
         return [
-            "login.required" => __("authForgetPassword.login.required"),
+            "login.required" => __("validation.login.required"),
         ];
     }
 
@@ -41,20 +41,21 @@ class AuthRequestForgetPassword extends FormRequest
         // عملنا array هتشيل الرسايل ال جاية من ملف اللغة 
         $errors = [];
         // جبنا الرسايل ال جاية من ال validatoin
-        $validationMessages = Lang::get('authForgetPassword');
+        $validationMessages = Lang::get('validation');
         foreach ($validator->errors()->getMessages() as $filed => $messages) {
             foreach ($messages as $message) {
-                $foundMessage = $message;
+                $errors[$filed][] = [
+                    "message" => $message,
+                ];
+                break;
             }
             if (is_array($validationMessages)) {
                 foreach ($validationMessages as $value) {
                     if (is_array($value) && isset($value['message']) && $value['message'] === $message) {
-                        $foundMessage = $value['message'];
-                        break;
+                        $errors[$filed][] = [
+                            "message" => $$value,
+                        ];
                     }
-                    $errors[$filed][] = [
-                        "message" => $foundMessage,
-                    ];
                 }
                 throw new HttpResponseException(
                     response()->json([

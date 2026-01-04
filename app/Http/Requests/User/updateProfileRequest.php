@@ -38,33 +38,33 @@ class updateProfileRequest extends FormRequest
 
     public function messages(){
         return [
-            "name.string" => __('updateProfile.name.string'),
-            "name.min" => __('updateProfile.name.min'),
-            "name.max" => __('updateProfile.name.max'),
-            "email.email" => __('updateProfile.email.email'),
-            "phone.digits" => __('updateProfile.phone.digits'),
-            "experience.string" => __('updateProfile.experience.string'),
-            "experience.min" => __('updateProfile.experience.min'),
-            "experience.max" => __('updateProfile.experience.max'),
-            "job_title.string" => __('updateProfile.job_title.string'),
-            "job_title.min" => __('updateProfile.name.min'),
-            "job_title.max" => __('updateProfile.job_title.max'),
-            "name_governorate.string" => __('updateProfile.name_governorate.string'),
-            "name_governorate.min" => __('updateProfile.name_governorate.min'),
-            "name_governorate.max" => __('updateProfile.name_governorate.max'),
-            "name_city.string" => __('updateProfile.name_city.string'),
-            "name_city.min" => __('updateProfile.name_city.min'),
-            "name_city.max" => __('updateProfile.name_city.max'),
-            "image.image" => __('updateProfile.image.image'),
-            'image.max' => __('updateProfile.image.max'),
-            "image.mimes" => __('updateProfile.image.mimes'),
+            "name.string" => __('validation.name.string'),
+            "name.min" => __('validation.name.min'),
+            "name.max" => __('validation.name.max'),
+            "email.email" => __('validation.email.email'),
+            "phone.digits" => __('validation.phone.digits'),
+            "experience.string" => __('validation.experience.string'),
+            "experience.min" => __('validation.experience.min'),
+            "experience.max" => __('validation.experience.max'),
+            "job_title.string" => __('validation.job_title.string'),
+            "job_title.min" => __('validation.name.min'),
+            "job_title.max" => __('validation.job_title.max'),
+            "name_governorate.string" => __('validation.name_governorate.string'),
+            "name_governorate.min" => __('validation.name_governorate.min'),
+            "name_governorate.max" => __('validation.name_governorate.max'),
+            "name_city.string" => __('validation.name_city.string'),
+            "name_city.min" => __('validation.name_city.min'),
+            "name_city.max" => __('validation.name_city.max'),
+            "image.image" => __('validation.image.image'),
+            'image.max' => __('validation.image.max'),
+            "image.mimes" => __('validation.image.mimes'),
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         $errors = [] ;
-        $validationMessages = Lang::get('updateProfile');
+        $validationMessages = Lang::get('validation');
         foreach($validator->errors()->getMessages() as $filed => $messages){
             foreach($messages as $message){
                 $foundMessage = $message;

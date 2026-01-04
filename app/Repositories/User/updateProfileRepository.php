@@ -67,7 +67,7 @@ class updateProfileRepository implements updateProfileInterface
                 ]
             );
 
-            return __('updateProfile.update_successfully');
+            return __('validation.update_successfully');
         } catch (Exception $e) {
             throw new HttpResponseException(
                 response()->json([
