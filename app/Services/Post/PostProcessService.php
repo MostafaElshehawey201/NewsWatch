@@ -19,8 +19,8 @@ class PostProcessService implements PostCreateInterface , AddPostToFavoriteInter
         $this->sendDataAddPostToFavoriteFromServiceToRepositoryByInterface = $addPostToFavoriteInterface;
     }
 
-    public function methodPostCreateInterface($validationPostCreateRequest , $postCreateRequest){
-        $returnDataPostCreateFromRepository = $this->sendDataCreatePostFromServiceToRepositoryByInterface->methodPostCreateInterface($validationPostCreateRequest , $postCreateRequest);
+    public function methodPostCreateInterface($validationPostCreateRequest , $postCreateRequest , $category_id){
+        $returnDataPostCreateFromRepository = $this->sendDataCreatePostFromServiceToRepositoryByInterface->methodPostCreateInterface($validationPostCreateRequest , $postCreateRequest , $category_id);
         $returnDataPostCreateFromRepository;
     }
 

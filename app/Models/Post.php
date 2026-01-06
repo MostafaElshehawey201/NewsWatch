@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        "title" , 'body' , 'user_id'
+        "title" , 'body' , 'user_id' , 'category_id'
     ];
 
     public function user(){
@@ -22,4 +22,8 @@ class Post extends Model
     public function FavoritePost(){{
         return $this->hasMany(FavoritePost::class , 'post_id' , 'id');
     }}
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }

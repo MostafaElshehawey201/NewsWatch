@@ -16,11 +16,11 @@ class PostController extends Controller
 {
     public function __construct(protected PostProcessService $postProcessService) {}
 
-    public function createPost(PostCreateRequest $postCreateRequest)
+    public function createPost(PostCreateRequest $postCreateRequest , $category_id)
     {
         $validationPostCreateRequest = $postCreateRequest->validated();
         try {
-            $this->postProcessService->methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest);
+            $this->postProcessService->methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest , $category_id);
             return response()->json([
                 "success" => true,
                 "data" => __('validation.post.create'),

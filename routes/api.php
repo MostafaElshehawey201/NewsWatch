@@ -27,7 +27,7 @@ use App\Http\Controllers\Categories\CategoryController;
         Route::get('categories/{category_id}/sub-category' , 'subCategory')->middleware('auth:sanctum');
     });
     Route::middleware(['api' , 'auth:sanctum' , 'setApiLocalLang'])->prefix('post')->group(function(){
-        Route::post('create' , [PostController::class , 'createPost']);
+        Route::post('{category_id}/create' , [PostController::class , 'createPost']);
         Route::get('show' , [PostController::class , 'showPosts']);
         Route::post('add-favorite/{post_id}' , [PostController::class , 'addPostFavorite']);
     });

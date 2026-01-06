@@ -22,13 +22,14 @@ class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInt
         //
     }
 
-    public function methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest)
+    public function methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest , $category_id)
     {
         $user = Auth::user();
         $post = Post::create([
             'user_id' => $user->id,
             "title" => $validationPostCreateRequest['title'] ?? null,
             "body" => $validationPostCreateRequest['body'] ?? null,
+            "category_id" => $category_id,
         ]);
         if ($postCreateRequest->hasFile('file')) {
             $catchFile = $postCreateRequest->file('file');
