@@ -47,6 +47,10 @@ class User extends Authenticatable
     public function post(){
         return $this->hasMany(Post::class);
     }
+
+    public function FavoritePost(){
+        return $this->hasMany(FavoritePost::class , 'post_id' , 'id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

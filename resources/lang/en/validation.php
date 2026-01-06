@@ -55,4 +55,6 @@ return [
     'title.string' => "Title must be String",
     'body.string' => 'Body must be string',
     'post.create' => 'Your post has been successfully created',
+    'post.favorite' => 'Post added to favorite successfully',
+    'postFavorite.exist' => 'This post has already been added to my favorites.',
 ];

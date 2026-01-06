@@ -18,4 +18,8 @@ class Post extends Model
     public function attachment(){
         return $this->hasMany(Attachment::class);
     }
+
+    public function FavoritePost(){{
+        return $this->hasMany(FavoritePost::class , 'post_id' , 'id');
+    }}
 }

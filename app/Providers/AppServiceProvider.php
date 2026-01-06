@@ -7,6 +7,7 @@ use App\Interfaces\Auth\AuthForgetPasswordInterface;
 use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthResetPasswordInterface;
+use App\Interfaces\Post\AddPostToFavoriteInterface;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\User\updateProfileInterface;
 use App\Repositories\Auth\AuthRepository;
@@ -47,6 +48,10 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             PostCreateInterface::class,
+            PostProcessRepository::class,
+        );
+        $this->app->bind(
+            AddPostToFavoriteInterface::class,
             PostProcessRepository::class,
         );
     } 
