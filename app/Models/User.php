@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Dba\Connection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,6 +52,14 @@ class User extends Authenticatable
 
     public function FavoritePost(){
         return $this->hasMany(FavoritePost::class , 'post_id' , 'id');
+    }
+
+    public function connectionUserRequest(){
+        return $this->hasMany(Connection::class , 'requester_user_id' , 'id');
+    }
+
+    public function connectionUserReceiver(){
+        return $this->hasMany(Connection::class , 'receiver_user_id' , 'id');
     }
     /**
      * The attributes that should be hidden for serialization.

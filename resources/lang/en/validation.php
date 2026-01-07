@@ -57,4 +57,5 @@ return [
     'post.create' => 'Your post has been successfully created',
     'post.favorite' => 'Post added to favorite successfully',
     'postFavorite.exist' => 'This post has already been added to my favorites.',
+    'search.userNotFound' => 'there is no User with this name',
 ];

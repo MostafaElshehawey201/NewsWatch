@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Posts\PostController;
 use App\Http\Controllers\Categories\CategoryController;
+use App\Http\Controllers\RelationUsersController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
         Route::post("register" , [AuthController::class , 'register'])->middleware('setApiLocalLang');
@@ -31,4 +32,8 @@ use App\Http\Controllers\Categories\CategoryController;
         Route::get('show' , [PostController::class , 'showPosts']);
         Route::post('add-favorite/{post_id}' , [PostController::class , 'addPostFavorite']);
     });
+
+    Route::middleware(['api' , 'setApiLocalLang' , 'auth:sanctum'])->prefix('relation')->group(function(){
+        Route::post('search-user-relation' , [RelationUsersController::class , 'searchUserRelation']);
+    })
 ?>

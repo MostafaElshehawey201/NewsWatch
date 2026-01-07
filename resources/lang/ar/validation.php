@@ -67,4 +67,6 @@ return [
     'post.create' => 'تم انشاء البوست الخاص بك بنجاح',
     'post.favorite' => 'تم اضافة البوست بنجاح',
     'postFavorite.exist' => 'هذا البوست مضاف الي المفضلة مسبقا',
+    'search.userNotFound' => 'لا يوجد مستخدم بهذا الاسم',
+
 ];
