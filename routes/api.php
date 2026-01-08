@@ -30,5 +30,6 @@ use App\Http\Controllers\Categories\CategoryController;
         Route::post('{category_id}/create' , [PostController::class , 'createPost']);
         Route::get('show' , [PostController::class , 'showPosts']);
         Route::post('add-favorite/{post_id}' , [PostController::class , 'addPostFavorite']);
+        Route::get('show-posts-favorite' , [PostController::class , 'showPostsFavorite']);
     });
 ?>

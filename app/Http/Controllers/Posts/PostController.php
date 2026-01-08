@@ -14,7 +14,7 @@ use App\Http\Requests\Post\PostCreateRequest;
 
 class PostController extends Controller
 {
-    public function __construct(protected PostProcessService $postProcessService) {}
+    public function __construct(protected PostProcessService $postProcessService ) {}
 
     public function createPost(PostCreateRequest $postCreateRequest , $category_id)
     {
@@ -85,6 +85,29 @@ class PostController extends Controller
                 "data" => null,
                 "errors" => __('errors.server'),
             ], 500);
+        }
+    }
+
+    public function showPostsFavorite(){
+        $showPostsFavoriteFromService = $this->postProcessService->methodShowPostsFavoriteInterface();
+        try{
+            return response()->json([
+                "success" => true ,
+                "data" => $showPostsFavoriteFromService,
+                "errors"=>null,
+            ],200);
+        }catch(DomainException $e){
+            return response()->json([
+                "success"=> false ,
+                "data" => __('validation.postFavorite.notFound'),
+                "errors"=>$e->getMessage(),
+            ],404);
+        }catch(Throwable $e){
+            return response()->json([
+                "success"=> false, 
+                "data"=>null,
+                "errors" => $e->getMessage(),
+            ],500);
         }
     }
 }
