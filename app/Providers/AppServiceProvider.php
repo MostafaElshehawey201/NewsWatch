@@ -9,7 +9,10 @@ use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthResetPasswordInterface;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
 use App\Interfaces\Post\PostCreateInterface;
+
+use App\Interfaces\Post\showPostsFavoriteInterface;
 use App\Interfaces\Relation\SearchUserRelationInterface;
+
 use App\Interfaces\User\updateProfileInterface;
 use App\Repositories\Auth\AuthRepository;
 use App\Repositories\Post\PostProcessRepository;
@@ -56,10 +59,17 @@ class AppServiceProvider extends ServiceProvider
             AddPostToFavoriteInterface::class,
             PostProcessRepository::class,
         );
+
+        $this->app->bind(
+            showPostsFavoriteInterface::class,
+            PostProcessRepository::class,
+        );
+
         $this->app->bind(
             SearchUserRelationInterface::class,
             SearchUserRelationRepository::class,
         );
+
     } 
 
     /**

@@ -69,4 +69,7 @@ return [
     'postFavorite.exist' => 'هذا البوست مضاف الي المفضلة مسبقا',
     'search.userNotFound' => 'لا يوجد مستخدم بهذا الاسم',
 
+
+    "postFavorite.notFound" => 'لا يوجد بوستات في المفضلة'
+
 ];

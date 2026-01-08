@@ -58,4 +58,7 @@ return [
     'post.favorite' => 'Post added to favorite successfully',
     'postFavorite.exist' => 'This post has already been added to my favorites.',
     'search.userNotFound' => 'there is no User with this name',
+
+    'postFavorite.notFound' => 'there is no posts in favorite',
+
 ];

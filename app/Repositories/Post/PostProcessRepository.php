@@ -9,10 +9,11 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
+use App\Interfaces\Post\showPostsFavoriteInterface;
 use DomainException;
 use Exception;
 
-class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInterface
+class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInterface , showPostsFavoriteInterface 
 {
     /**
      * Create a new class instance.
@@ -56,5 +57,13 @@ class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInt
             "user_id" => $user_id,
             "post_id" => $post_id,
         ]);
+    }
+
+    public function methodShowPostsFavoriteInterface(){
+        $user_id = Auth::guard('sanctum')->id();
+        $postsFavorite = FavoritePost::where(function($query) use ($user_id){
+            $query->where('user_id' , $user_id);
+        })->get();
+        return $postsFavorite;
     }
 }
