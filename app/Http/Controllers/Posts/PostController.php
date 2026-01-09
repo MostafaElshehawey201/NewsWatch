@@ -59,11 +59,34 @@ class PostController extends Controller
         }
     }
 
+    public function editPost($post_id){
+        try{
+            $returnDataEditPostFromService = $this->postProcessService->methodEditPostInterface($post_id);
+            return response()->json([
+                "success" => true ,
+                "data" => $returnDataEditPostFromService ,
+                "errors" => null,
+            ],200);
+        }catch(DomainException $e){
+            return response()->json([
+                "success" => false ,
+                "data" => null,
+                "errors"=>$e->getMessage(),
+            ],404);
+        }catch(Throwable $e){
+            return response()->json([
+                "success" => false ,
+                "data" => null ,
+                "errors" => $e->getMessage(),
+            ],500);
+        }
+    }
+
+
     public function addPostFavorite($post_id)
     {
         try {
             $this->postProcessService->methodAddPostToFavorite($post_id);
-
             return response()->json([
                 "success" => true,
                 "data" => __('validation.post.favorite'),
@@ -79,11 +102,10 @@ class PostController extends Controller
                 ],
             ], 409);
         } catch (Throwable $e) {
-
             return response()->json([
                 "success" => false,
                 "data" => null,
-                "errors" => __('errors.server'),
+                "errors" => $e->getMessage(),
             ], 500);
         }
     }
@@ -117,7 +139,7 @@ class PostController extends Controller
             $returnDataRemovePostFavoriteFromService = $this->postProcessService->methodRemovePostFavorite($post_id);
             return response()->json([
                 "success" => true,
-                "data" => null ,
+                "data" => null,
                 "message" => __('validation.postFavorite.deleteFavorite'),
                 "errors" => null,
             ], 200);

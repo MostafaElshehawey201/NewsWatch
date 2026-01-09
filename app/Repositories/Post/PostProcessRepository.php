@@ -9,13 +9,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
+use App\Interfaces\Post\EditPostInterface;
 use App\Interfaces\Post\RemovePostFavoriteInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
 use DomainException;
 use Exception;
 
 class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInterface ,
- showPostsFavoriteInterface , RemovePostFavoriteInterface
+ showPostsFavoriteInterface , RemovePostFavoriteInterface , EditPostInterface
 {
     /**
      * Create a new class instance.
@@ -52,13 +53,11 @@ class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInt
             $query->where('user_id', $user_id)
                 ->Where('post_id', $post_id);
         })->exists();
-        if ($FavoritePost) {
-            throw new DomainException(__('validation.postFavorite.exist'));
-        }
         FavoritePost::create([
             "user_id" => $user_id,
             "post_id" => $post_id,
         ]);
+        return $FavoritePost;
     }
 
     public function methodShowPostsFavoriteInterface(){
@@ -67,6 +66,11 @@ class PostProcessRepository implements PostCreateInterface, AddPostToFavoriteInt
             $query->where('user_id' , $user_id);
         })->get();
         return $postsFavorite;
+    }
+
+    public function methodEditPostInterface($post_id){
+        $editPost = Post::find($post_id);
+        return $editPost;
     }
 
     public function methodRemovePostFavorite($post_id){

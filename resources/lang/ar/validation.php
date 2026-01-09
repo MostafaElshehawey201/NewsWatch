@@ -68,8 +68,8 @@ return [
     'post.favorite' => 'تم اضافة البوست بنجاح',
     'postFavorite.exist' => 'هذا البوست مضاف الي المفضلة مسبقا',
     'search.userNotFound' => 'لا يوجد مستخدم بهذا الاسم',
-
-
+    'post.notFound' => 'لا يوجد بوست متاح بهذه البيانات',
+    'post.edit' => 'بيانات البوست ليتم تعديلها',
     "postFavorite.notFound" => 'لا يوجد بوستات في المفضلة',
     "postFavorite.deleteFavorite" => 'تم ازالة البوست من المفضلة ',
 

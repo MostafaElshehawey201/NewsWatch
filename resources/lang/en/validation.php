@@ -58,7 +58,8 @@ return [
     'post.favorite' => 'Post added to favorite successfully',
     'postFavorite.exist' => 'This post has already been added to my favorites.',
     'search.userNotFound' => 'there is no User with this name',
-
+    'post.notFound' => 'No post is available with this data.',
+    'post.edit' => 'data post for edit',
     'postFavorite.notFound' => 'there is no posts in favorite',
     "postFavorite.deleteFavorite" => 'The post has been removed from favorites.',
 

@@ -3,6 +3,7 @@
 namespace App\Services\Post;
 
 use App\Interfaces\Post\AddPostToFavoriteInterface;
+use App\Interfaces\Post\EditPostInterface;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\Post\RemovePostFavoriteInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
@@ -12,7 +13,8 @@ class PostProcessService implements
     PostCreateInterface,
     AddPostToFavoriteInterface,
     showPostsFavoriteInterface,
-    RemovePostFavoriteInterface
+    RemovePostFavoriteInterface,
+    EditPostInterface
 {
     /**
      * Create a new class instance.
@@ -20,19 +22,21 @@ class PostProcessService implements
     public $sendDataCreatePostFromServiceToRepositoryByInterface;
     public $sendDataAddPostToFavoriteFromServiceToRepositoryByInterface;
     public $showPostsFavorite;
-
+    public $editPost;
     public $removePostFavorite;
 
     public function __construct(
         PostCreateInterface $postCreateInterface,
         AddPostToFavoriteInterface $addPostToFavoriteInterface,
         showPostsFavoriteInterface $showPostsFavoriteInterface,
-        RemovePostFavoriteInterface $removePostFavoriteInterface
+        RemovePostFavoriteInterface $removePostFavoriteInterface,
+        EditPostInterface $editPostInterface,
     ) {
         $this->sendDataCreatePostFromServiceToRepositoryByInterface = $postCreateInterface;
         $this->sendDataAddPostToFavoriteFromServiceToRepositoryByInterface = $addPostToFavoriteInterface;
         $this->showPostsFavorite = $showPostsFavoriteInterface;
         $this->removePostFavorite = $removePostFavoriteInterface;
+        $this->editPost = $editPostInterface;
     }
 
     public function methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest, $category_id)
@@ -44,8 +48,12 @@ class PostProcessService implements
     public function methodAddPostToFavorite($post_id)
     {
         $returnDataAddPostFavorite = $this->sendDataAddPostToFavoriteFromServiceToRepositoryByInterface->methodAddPostToFavorite($post_id);
+        if ($returnDataAddPostFavorite) {
+            throw new DomainException(__('validation.postFavorite.exist'));
+        }
         return $returnDataAddPostFavorite;
     }
+
 
     public function methodShowPostsFavoriteInterface()
     {
@@ -54,6 +62,15 @@ class PostProcessService implements
             throw new DomainException(__('validation.postFavorite.notFound'));
         }
         return $returnFavoritePostsFromRepository;
+    }
+
+    public function methodEditPostInterface($post_id)
+    {
+        $returnEditPostFromRepository = $this->editPost->methodEditPostInterface($post_id);
+        if (!$returnEditPostFromRepository) {
+            throw new DomainException(__('validation.post.notFound'));
+        }
+        return $returnEditPostFromRepository;
     }
 
     public function methodRemovePostFavorite($post_id)
