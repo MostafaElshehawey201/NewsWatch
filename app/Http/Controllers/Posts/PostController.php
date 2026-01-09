@@ -14,13 +14,13 @@ use App\Http\Requests\Post\PostCreateRequest;
 
 class PostController extends Controller
 {
-    public function __construct(protected PostProcessService $postProcessService ) {}
+    public function __construct(protected PostProcessService $postProcessService) {}
 
-    public function createPost(PostCreateRequest $postCreateRequest , $category_id)
+    public function createPost(PostCreateRequest $postCreateRequest, $category_id)
     {
         $validationPostCreateRequest = $postCreateRequest->validated();
         try {
-            $this->postProcessService->methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest , $category_id);
+            $this->postProcessService->methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest, $category_id);
             return response()->json([
                 "success" => true,
                 "data" => __('validation.post.create'),
@@ -70,7 +70,7 @@ class PostController extends Controller
                 "errors" => null,
             ], 201);
         } catch (DomainException $e) {
-            
+
             return response()->json([
                 "success" => false,
                 "data" => null,
@@ -88,26 +88,51 @@ class PostController extends Controller
         }
     }
 
-    public function showPostsFavorite(){
+    public function showPostsFavorite()
+    {
         $showPostsFavoriteFromService = $this->postProcessService->methodShowPostsFavoriteInterface();
-        try{
+        try {
             return response()->json([
-                "success" => true ,
+                "success" => true,
                 "data" => $showPostsFavoriteFromService,
-                "errors"=>null,
-            ],200);
-        }catch(DomainException $e){
+                "errors" => null,
+            ], 200);
+        } catch (DomainException $e) {
             return response()->json([
-                "success"=> false ,
+                "success" => false,
                 "data" => __('validation.postFavorite.notFound'),
-                "errors"=>$e->getMessage(),
-            ],404);
-        }catch(Throwable $e){
-            return response()->json([
-                "success"=> false, 
-                "data"=>null,
                 "errors" => $e->getMessage(),
-            ],500);
+            ], 404);
+        } catch (Throwable $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function removePostFavorite($post_id)
+    {
+        try {
+            $returnDataRemovePostFavoriteFromService = $this->postProcessService->methodRemovePostFavorite($post_id);
+            return response()->json([
+                "success" => true,
+                "data" => null ,
+                "message" => __('validation.postFavorite.deleteFavorite'),
+                "errors" => null,
+            ], 200);
+        } catch (DomainException $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 404);
+        } catch (Throwable $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 500);
         }
     }
 }

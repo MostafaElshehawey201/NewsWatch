@@ -60,5 +60,6 @@ return [
     'search.userNotFound' => 'there is no User with this name',
 
     'postFavorite.notFound' => 'there is no posts in favorite',
+    "postFavorite.deleteFavorite" => 'The post has been removed from favorites.',
 
 ];

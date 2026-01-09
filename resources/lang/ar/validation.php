@@ -70,6 +70,7 @@ return [
     'search.userNotFound' => 'لا يوجد مستخدم بهذا الاسم',
 
 
-    "postFavorite.notFound" => 'لا يوجد بوستات في المفضلة'
+    "postFavorite.notFound" => 'لا يوجد بوستات في المفضلة',
+    "postFavorite.deleteFavorite" => 'تم ازالة البوست من المفضلة ',
 
 ];

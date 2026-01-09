@@ -9,7 +9,7 @@ use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthResetPasswordInterface;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
 use App\Interfaces\Post\PostCreateInterface;
-
+use App\Interfaces\Post\RemovePostFavoriteInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
 use App\Interfaces\Relation\SearchUserRelationInterface;
 
@@ -62,6 +62,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             showPostsFavoriteInterface::class,
+            PostProcessRepository::class,
+        );
+        $this->app->bind(
+            RemovePostFavoriteInterface::class,
             PostProcessRepository::class,
         );
 
