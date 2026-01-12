@@ -35,6 +35,7 @@ use App\Http\Controllers\RelationUsersController;
         Route::post('edit-post/{post_id}' , [PostController::class , 'editPost']);
         Route::post('delete-post/{post_id}' , [PostController::class , 'deletePost']);
         Route::post('remove-post-favorite/{post_id}' , [PostController::class , 'removePostFavorite']);
+        Route::post('update-post/{post_id}' , [PostController::class , 'updatePost']);
     });
 
     Route::middleware(['api' , 'setApiLocalLang' , 'auth:sanctum'])->prefix('relation')->group(function(){

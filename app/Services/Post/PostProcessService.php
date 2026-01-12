@@ -2,13 +2,18 @@
 
 namespace App\Services\Post;
 
-use App\Interfaces\Post\AddPostToFavoriteInterface;
-use App\Interfaces\Post\DeletePostInterface;
-use App\Interfaces\Post\EditPostInterface;
-use App\Interfaces\Post\PostCreateInterface;
-use App\Interfaces\Post\RemovePostFavoriteInterface;
-use App\Interfaces\Post\showPostsFavoriteInterface;
+use App\Models\Post;
 use DomainException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Interfaces\Post\EditPostInterface;
+use App\Interfaces\Post\DeletePostInterface;
+use App\Interfaces\Post\PostCreateInterface;
+use App\Interfaces\Post\UpdatePostInterface;
+use App\Interfaces\Post\AddPostToFavoriteInterface;
+use App\Interfaces\Post\showPostsFavoriteInterface;
+use App\Interfaces\Post\RemovePostFavoriteInterface;
+use App\Repositories\Post\PostProcessRepository;
 
 class PostProcessService implements
     PostCreateInterface,
@@ -16,7 +21,8 @@ class PostProcessService implements
     showPostsFavoriteInterface,
     RemovePostFavoriteInterface,
     EditPostInterface,
-    DeletePostInterface
+    DeletePostInterface,
+    UpdatePostInterface
 {
     /**
      * Create a new class instance.
@@ -27,6 +33,7 @@ class PostProcessService implements
     public $editPost;
     public $removePostFavorite;
     public $deletePost;
+    public $updatePost;
 
     public function __construct(
         PostCreateInterface $postCreateInterface,
@@ -35,6 +42,8 @@ class PostProcessService implements
         RemovePostFavoriteInterface $removePostFavoriteInterface,
         EditPostInterface $editPostInterface,
         DeletePostInterface $deletePostInterface,
+        UpdatePostInterface $updatePostInterface,
+        protected PostProcessRepository $postProcessRepository,
     ) {
         $this->sendDataCreatePostFromServiceToRepositoryByInterface = $postCreateInterface;
         $this->sendDataAddPostToFavoriteFromServiceToRepositoryByInterface = $addPostToFavoriteInterface;
@@ -42,6 +51,7 @@ class PostProcessService implements
         $this->removePostFavorite = $removePostFavoriteInterface;
         $this->editPost = $editPostInterface;
         $this->deletePost = $deletePostInterface;
+        $this->updatePost = $updatePostInterface;
     }
 
     public function methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest, $category_id)
@@ -95,5 +105,28 @@ class PostProcessService implements
             throw new DomainException(__('validation.postFavorite.notFound'));
         }
         $returnRemovePostFavoriteFromRepository->delete();
+    }
+
+    public function methodUpdatePostInterface($validationPostRequest, $updatePostRequest, $post_id)
+    {
+        // $returnDataUpdatePostFromRepository = $this->updatePost->methodUpdatePostInterface($validationPostRequest , $updatePostRequest , $post_id);
+        $userId = Auth::guard('sanctum')->id();
+        $post = $this->postProcessRepository->find($post_id);
+        if (!$post) {
+            throw new DomainException(__('validation.post.notFound'));
+        }
+        $this->postProcessRepository->updatePost($post, $validationPostRequest, $userId);
+        $attachment = $this->postProcessRepository->Attachment($post_id);
+        if ($updatePostRequest->hasFile('file')) {
+            if ($attachment->file && Storage::disk('public')->exists($attachment->file)) {
+                Storage::disk('public')->delete($attachment->file);
+            }
+            $fileCatch = $updatePostRequest->file('file');
+            $fileNameExtension = time() . '.' . $fileCatch->extension();
+            $path = $fileCatch->storeAs('upload/updatePost', $fileNameExtension, 'public');
+            }else{
+                $path = $attachment ? $attachment->file : null;
+            }
+            $this->postProcessRepository->UpdateOrCreateAttachment($post_id, $path);
     }
 }

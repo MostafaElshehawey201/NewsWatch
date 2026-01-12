@@ -60,6 +60,7 @@ return [
     'search.userNotFound' => 'there is no User with this name',
     'post.notFound' => 'No post is available with this data.',
     'post.edit' => 'data post for edit',
+    'post.updatePost' => 'post updated successfully', 
     'post.delete' => 'post delete successfully',
     'postFavorite.notFound' => 'there is no posts in favorite',
     "postFavorite.deleteFavorite" => 'The post has been removed from favorites.',

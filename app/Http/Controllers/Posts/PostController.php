@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Post\PostProcessService;
 use App\Http\Requests\Post\PostCreateRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -167,6 +168,32 @@ class PostController extends Controller
                 "success" => true,
                 "data" => null,
                 "message" => __('validation.postFavorite.deleteFavorite'),
+                "errors" => null,
+            ], 200);
+        } catch (DomainException $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 404);
+        } catch (Throwable $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function updatePost(UpdatePostRequest $updatePostRequest, $post_id)
+    {
+        $validationPostRequest = $updatePostRequest->validated();
+        try {
+            $this->postProcessService->methodUpdatePostInterface($validationPostRequest, $updatePostRequest, $post_id);
+            return response()->json([
+                "success" => true,
+                "data" => null,
+                "message" => __('validation.post.updatePost'),
                 "errors" => null,
             ], 200);
         } catch (DomainException $e) {

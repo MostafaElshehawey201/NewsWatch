@@ -13,6 +13,7 @@ use App\Interfaces\Post\EditPostInterface;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\Post\RemovePostFavoriteInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
+use App\Interfaces\Post\UpdatePostInterface;
 use App\Interfaces\Relation\SearchUserRelationInterface;
 
 use App\Interfaces\User\updateProfileInterface;
@@ -82,6 +83,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SearchUserRelationInterface::class,
             SearchUserRelationRepository::class,
+        );
+        $this->app->bind(
+            UpdatePostInterface::class,
+            PostProcessRepository::class,
         );
 
     } 
