@@ -33,6 +33,7 @@ use App\Http\Controllers\RelationUsersController;
         Route::post('add-favorite/{post_id}' , [PostController::class , 'addPostFavorite']);
         Route::get('show-posts-favorite' , [PostController::class , 'showPostsFavorite']);
         Route::post('edit-post/{post_id}' , [PostController::class , 'editPost']);
+        Route::post('delete-post/{post_id}' , [PostController::class , 'deletePost']);
         Route::post('remove-post-favorite/{post_id}' , [PostController::class , 'removePostFavorite']);
     });
 

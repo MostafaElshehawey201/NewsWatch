@@ -3,6 +3,7 @@
 namespace App\Services\Post;
 
 use App\Interfaces\Post\AddPostToFavoriteInterface;
+use App\Interfaces\Post\DeletePostInterface;
 use App\Interfaces\Post\EditPostInterface;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\Post\RemovePostFavoriteInterface;
@@ -14,7 +15,8 @@ class PostProcessService implements
     AddPostToFavoriteInterface,
     showPostsFavoriteInterface,
     RemovePostFavoriteInterface,
-    EditPostInterface
+    EditPostInterface,
+    DeletePostInterface
 {
     /**
      * Create a new class instance.
@@ -24,6 +26,7 @@ class PostProcessService implements
     public $showPostsFavorite;
     public $editPost;
     public $removePostFavorite;
+    public $deletePost;
 
     public function __construct(
         PostCreateInterface $postCreateInterface,
@@ -31,12 +34,14 @@ class PostProcessService implements
         showPostsFavoriteInterface $showPostsFavoriteInterface,
         RemovePostFavoriteInterface $removePostFavoriteInterface,
         EditPostInterface $editPostInterface,
+        DeletePostInterface $deletePostInterface,
     ) {
         $this->sendDataCreatePostFromServiceToRepositoryByInterface = $postCreateInterface;
         $this->sendDataAddPostToFavoriteFromServiceToRepositoryByInterface = $addPostToFavoriteInterface;
         $this->showPostsFavorite = $showPostsFavoriteInterface;
         $this->removePostFavorite = $removePostFavoriteInterface;
         $this->editPost = $editPostInterface;
+        $this->deletePost = $deletePostInterface;
     }
 
     public function methodPostCreateInterface($validationPostCreateRequest, $postCreateRequest, $category_id)
@@ -73,15 +78,22 @@ class PostProcessService implements
         return $returnEditPostFromRepository;
     }
 
+    public function methodDeletePostInterface($post_id)
+    {
+        $returnDataDeleteFromRepository = $this->deletePost->methodDeletePostInterface($post_id);
+        if (!$returnDataDeleteFromRepository) {
+            throw new DomainException(__('validation.post.notFound'));
+        }
+        $returnDataDeleteFromRepository->delete();
+    }
+
+
     public function methodRemovePostFavorite($post_id)
     {
         $returnRemovePostFavoriteFromRepository = $this->removePostFavorite->methodRemovePostFavorite($post_id);
         if (!$returnRemovePostFavoriteFromRepository) {
             throw new DomainException(__('validation.postFavorite.notFound'));
         }
-        if ($returnRemovePostFavoriteFromRepository) {
-            $returnRemovePostFavoriteFromRepository->delete();
-            return true;
-        }
+        $returnRemovePostFavoriteFromRepository->delete();
     }
 }

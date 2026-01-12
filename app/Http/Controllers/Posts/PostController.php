@@ -59,26 +59,52 @@ class PostController extends Controller
         }
     }
 
-    public function editPost($post_id){
-        try{
+    public function editPost($post_id)
+    {
+        try {
             $returnDataEditPostFromService = $this->postProcessService->methodEditPostInterface($post_id);
             return response()->json([
-                "success" => true ,
-                "data" => $returnDataEditPostFromService ,
+                "success" => true,
+                "data" => $returnDataEditPostFromService,
                 "errors" => null,
-            ],200);
-        }catch(DomainException $e){
+            ], 200);
+        } catch (DomainException $e) {
             return response()->json([
-                "success" => false ,
+                "success" => false,
                 "data" => null,
-                "errors"=>$e->getMessage(),
-            ],404);
-        }catch(Throwable $e){
-            return response()->json([
-                "success" => false ,
-                "data" => null ,
                 "errors" => $e->getMessage(),
-            ],500);
+            ], 404);
+        } catch (Throwable $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function deletePost($post_id)
+    {
+        try {
+            $this->postProcessService->methodDeletePostInterface($post_id);
+            return response()->json([
+                "success" => true,
+                "data" => null,
+                "message" => __('validation.post.delete'),
+                "errors" => null,
+            ], 200);
+        } catch (DomainException $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 404);
+        } catch (Throwable $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 500);
         }
     }
 

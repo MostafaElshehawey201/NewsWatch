@@ -70,6 +70,7 @@ return [
     'search.userNotFound' => 'لا يوجد مستخدم بهذا الاسم',
     'post.notFound' => 'لا يوجد بوست متاح بهذه البيانات',
     'post.edit' => 'بيانات البوست ليتم تعديلها',
+    'post.delete' => 'تم حذف البةست بنجاح',
     "postFavorite.notFound" => 'لا يوجد بوستات في المفضلة',
     "postFavorite.deleteFavorite" => 'تم ازالة البوست من المفضلة ',
 
