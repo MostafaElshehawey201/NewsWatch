@@ -74,5 +74,7 @@ return [
     'post.delete' => 'تم حذف البةست بنجاح',
     "postFavorite.notFound" => 'لا يوجد بوستات في المفضلة',
     "postFavorite.deleteFavorite" => 'تم ازالة البوست من المفضلة ',
+    'user.tokenError' => "بيانات المستخدم غير صحيحة",
+    'user.logoutAll' => "تما تسجيل الخروج من جميع الاجهزة",
 
 ];

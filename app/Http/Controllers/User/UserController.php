@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\User\updateProfileService;
 use App\Http\Requests\User\updateProfileRequest;
+use DomainException;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -115,5 +117,29 @@ class UserController extends Controller
                 "errors" => $errors->getMessage(),
             ],422);
         }
+    }
+
+    public function logoutAll(Request $request){
+       try{
+        $this->updateProfileService->logoutAll($request);
+        return response()->json([
+            "success"=> true,
+            "data" => null,
+            "message" => __('validation.user.logoutAll'),
+            "errors" => null,
+        ],200);
+       }catch(DomainException $e){
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors"=> $e->getMessage(),
+            ],401);
+       }catch(Throwable $e){
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" =>$e->getMessage(),
+            ],500);
+       }
     }
 }

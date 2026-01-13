@@ -64,5 +64,7 @@ return [
     'post.delete' => 'post delete successfully',
     'postFavorite.notFound' => 'there is no posts in favorite',
     "postFavorite.deleteFavorite" => 'The post has been removed from favorites.',
+    'validation.user.tokenError' => "data user not available",
+    'user.logoutAll' => 'logout successfully All devices',
 
 ];

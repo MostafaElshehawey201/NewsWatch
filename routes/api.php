@@ -21,6 +21,8 @@ use App\Http\Controllers\RelationUsersController;
         Route::get('edit-profile/{profile_id}' , [UserController::class , 'editProfile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
         Route::post('update-profile/{profile_id}' , [UserController::class , 'updateProfile'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
         Route::post('logout' , [UserController::class, 'logout'])->middleware('auth:sanctum');
+        Route::post('logout-all' , [UserController::class, 'logoutAll'])->middleware(['auth:sanctum' , 'setApiLocalLang']);
+
     });
     Route::middleware('api')->prefix('category')->controller(CategoryController::class)
     ->group(function(){
