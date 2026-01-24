@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
 use App\Models\Attachment;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,11 +20,15 @@ class Post extends Model
         return $this->hasMany(Attachment::class);
     }
 
-    public function FavoritePost(){{
+    public function FavoritePost(){
         return $this->hasMany(FavoritePost::class , 'post_id' , 'id');
-    }}
+    }
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function comment(){
+        return $this->hasMany(Comment::class , 'post_id' , 'id');
     }
 }

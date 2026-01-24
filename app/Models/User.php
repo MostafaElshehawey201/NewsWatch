@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Dba\Connection;
+use Dom\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -60,6 +61,10 @@ class User extends Authenticatable
 
     public function connectionUserReceiver(){
         return $this->hasMany(Connection::class , 'receiver_user_id' , 'id');
+    }
+
+    public function comment(){
+        return $this->hasMany(Comment::class , 'user_id' , 'id');
     }
     /**
      * The attributes that should be hidden for serialization.

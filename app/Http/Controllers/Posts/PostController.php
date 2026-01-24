@@ -42,12 +42,18 @@ class PostController extends Controller
     public function showPosts()
     {
         try {
-            $posts = Post::with('attachment')->get();
+            $posts = $this->postProcessService->methodShowAllPostsInterface();
             return response()->json([
                 "success" => true,
                 "data" => $posts,
                 "errors" => null,
             ], 200);
+        } catch (DomainException $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
+            ], 404);
         } catch (Throwable $errors) {
             return response()->json([
                 "success" => false,
@@ -56,7 +62,7 @@ class PostController extends Controller
                     "message" => $errors->getMessage(),
                     "type" => get_class($errors),
                 ]
-            ], 422);
+            ], 500);
         }
     }
 
@@ -163,7 +169,7 @@ class PostController extends Controller
     public function removePostFavorite($post_id)
     {
         try {
-            $returnDataRemovePostFavoriteFromService = $this->postProcessService->methodRemovePostFavorite($post_id);
+            $this->postProcessService->methodRemovePostFavorite($post_id);
             return response()->json([
                 "success" => true,
                 "data" => null,

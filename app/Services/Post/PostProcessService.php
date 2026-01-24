@@ -60,6 +60,14 @@ class PostProcessService implements
         $returnDataPostCreateFromRepository;
     }
 
+    public function methodShowAllPostsInterface(){ 
+        $posts = $this->postProcessRepository->methodShowAllPostsInterface();
+        if($posts->isEmpty()){
+            throw new DomainException(__('validation.posts.notFound'));
+        }
+        return $posts;
+    }
+
     public function methodAddPostToFavorite($post_id)
     {
         $returnDataAddPostFavorite = $this->sendDataAddPostToFavoriteFromServiceToRepositoryByInterface->methodAddPostToFavorite($post_id);
@@ -109,7 +117,6 @@ class PostProcessService implements
 
     public function methodUpdatePostInterface($validationPostRequest, $updatePostRequest, $post_id)
     {
-        // $returnDataUpdatePostFromRepository = $this->updatePost->methodUpdatePostInterface($validationPostRequest , $updatePostRequest , $post_id);
         $userId = Auth::guard('sanctum')->id();
         $post = $this->postProcessRepository->find($post_id);
         if (!$post) {

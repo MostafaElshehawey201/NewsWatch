@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\HttpCache\Store;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
 use App\Interfaces\Post\RemovePostFavoriteInterface;
+use App\Interfaces\Post\ShowAllPostsInterface;
 use App\Models\Category;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -27,7 +28,8 @@ class PostProcessRepository implements
     RemovePostFavoriteInterface,
     EditPostInterface,
     DeletePostInterface,
-    UpdatePostInterface
+    UpdatePostInterface,
+    ShowAllPostsInterface
 {
     /**
      * Create a new class instance.
@@ -70,6 +72,22 @@ class PostProcessRepository implements
         ]);
         return $FavoritePost;
     }
+
+
+
+    public function methodShowAllPostsInterface()
+    {
+        $posts = Post::with([
+            'user:id,name',
+            'attachment:id,post_id,file',
+            'comment:id,post_id,user_id,comment'
+        ])
+        ->paginate(10);
+        return $posts;
+    }
+
+
+
 
     public function methodShowPostsFavoriteInterface()
     {
@@ -127,10 +145,12 @@ class PostProcessRepository implements
         // return $post;
 
     }
-    public function find($post_id){
+    public function find($post_id)
+    {
         return Post::find($post_id);
     }
-    public function updatePost($post , $validationPostRequest , $userId ){
+    public function updatePost($post, $validationPostRequest, $userId)
+    {
         $post->update([
             "user_id" => $userId,
             "category_id" => $post->category_id,
@@ -138,13 +158,15 @@ class PostProcessRepository implements
             "body" => $validationPostRequest['body'] ?? $post->body,
         ]);
     }
-    public function Attachment($post_id){
-        $Attachment = Attachment::where('post_id' , $post_id)->first();
+    public function Attachment($post_id)
+    {
+        $Attachment = Attachment::where('post_id', $post_id)->first();
         return $Attachment;
     }
-    public function UpdateOrCreateAttachment($post_id , $path ){
+    public function UpdateOrCreateAttachment($post_id, $path)
+    {
         Attachment::updateOrCreate(
-            ["post_id" => $post_id ],
+            ["post_id" => $post_id],
             ["file" => $path],
         );
     }

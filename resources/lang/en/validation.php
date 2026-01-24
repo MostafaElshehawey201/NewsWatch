@@ -59,6 +59,7 @@ return [
     'postFavorite.exist' => 'This post has already been added to my favorites.',
     'search.userNotFound' => 'there is no User with this name',
     'post.notFound' => 'No post is available with this data.',
+    'posts.notFound' => 'no posts are available at the moment',
     'post.edit' => 'data post for edit',
     'post.updatePost' => 'post updated successfully', 
     'post.delete' => 'post delete successfully',

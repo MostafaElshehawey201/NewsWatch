@@ -8,10 +8,12 @@ use App\Interfaces\Auth\AuthInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
 use App\Interfaces\Auth\AuthResetPasswordInterface;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
+use App\Interfaces\Post\CommentInterface;
 use App\Interfaces\Post\DeletePostInterface;
 use App\Interfaces\Post\EditPostInterface;
 use App\Interfaces\Post\PostCreateInterface;
 use App\Interfaces\Post\RemovePostFavoriteInterface;
+use App\Interfaces\Post\ShowAllPostsInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
 use App\Interfaces\Post\UpdatePostInterface;
 use App\Interfaces\Relation\SearchUserRelationInterface;
@@ -62,7 +64,10 @@ class AppServiceProvider extends ServiceProvider
             AddPostToFavoriteInterface::class,
             PostProcessRepository::class,
         );
-
+        $this->app->bind(
+            ShowAllPostsInterface::class,
+            PostProcessRepository::class,
+        );
         $this->app->bind(
             showPostsFavoriteInterface::class,
             PostProcessRepository::class,
@@ -79,7 +84,10 @@ class AppServiceProvider extends ServiceProvider
             DeletePostInterface::class,
             PostProcessRepository::class,
         );
-
+        $this->app->bind(
+            CommentInterface::class,
+            PostProcessRepository::class,
+        );
         $this->app->bind(
             SearchUserRelationInterface::class,
             SearchUserRelationRepository::class,
