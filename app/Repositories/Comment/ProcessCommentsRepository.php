@@ -26,4 +26,8 @@ class ProcessCommentsRepository
             'comment' => $validationCreateCommentRequest['content']
         ]);
     }
+
+    public function find($comment_id){
+        return Comment::find($comment_id);
+    }
 }

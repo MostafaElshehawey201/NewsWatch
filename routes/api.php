@@ -42,6 +42,7 @@ use App\Http\Controllers\RelationUsersController;
 
     Route::middleware(['api' , 'setApiLocalLang'])->prefix('comment')->group(function(){
         Route::post('create-comment/{post_id}' , [CommentController::class, 'createComment']);
+        Route::get('edit-comment/{comment_id}' , [CommentController::class , 'editComment']);
     });
 
     Route::middleware(['api' , 'setApiLocalLang' , 'auth:sanctum'])->prefix('relation')->group(function(){

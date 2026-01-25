@@ -9,6 +9,7 @@ use DomainException;
 class ProcessCommentsService
 {
 
+
     public function __construct(protected ProcessCommentsRepository $processCommentsRepository)
     {
         //
@@ -21,6 +22,14 @@ class ProcessCommentsService
             return $comment;
         } catch (DomainException) {
             throw new DomainException(__('validation.comment.create_error'));
+        }
+    }
+
+    public function editComment($comment_id){
+        try{
+            return $this->processCommentsRepository->find($comment_id);
+        }catch(DomainException){
+            throw new DomainException(__('validation.comment.not_found'));
         }
     }
 }

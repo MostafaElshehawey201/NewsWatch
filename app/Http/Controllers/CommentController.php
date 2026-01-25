@@ -34,7 +34,33 @@ class CommentController extends Controller
                     "message" => $errors->getMessage(),
                     "type" => get_class($errors),
                 ],
+            ], 500);
+        }
+    }
+    public function editComment($comment_id)
+    {
+        try {
+            $comment = $this->processCommentsService->editComment($comment_id);
+            return response()->json([
+                "success" => true,
+                "data" => $comment,
+                "errors" => null,
+            ], 201);
+        } catch (\DomainException $e) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => $e->getMessage(),
             ], 422);
+        } catch (Throwable $errors) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "errors" => [
+                    "message" => $errors->getMessage(),
+                    "type" => get_class($errors),
+                ],
+            ], 500);
         }
     }
 }
