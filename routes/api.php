@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Posts\PostController;
 use App\Http\Controllers\Categories\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RelationUsersController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
@@ -37,6 +38,10 @@ use App\Http\Controllers\RelationUsersController;
         Route::post('delete-post/{post_id}' , [PostController::class , 'deletePost']);
         Route::post('remove-post-favorite/{post_id}' , [PostController::class , 'removePostFavorite']);
         Route::post('update-post/{post_id}' , [PostController::class , 'updatePost']);
+    });
+
+    Route::middleware(['api' , 'setApiLocalLang'])->prefix('comment')->group(function(){
+        Route::post('create-comment/{post_id}' , [CommentController::class, 'createComment']);
     });
 
     Route::middleware(['api' , 'setApiLocalLang' , 'auth:sanctum'])->prefix('relation')->group(function(){
