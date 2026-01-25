@@ -30,4 +30,18 @@ class ProcessCommentsRepository
     public function find($comment_id){
         return Comment::find($comment_id);
     }
+
+    public function update($validationCreateCommentRequest , $comment_id){
+        $comment = Comment::find($comment_id);
+        $comment->update([
+            'comment' => $validationCreateCommentRequest['content']
+        ]);
+        return true;
+    }
+
+    public function delete($comment_id){
+        $comment = Comment::find($comment_id);
+        $comment->delete();
+        return true;
+    }
 }

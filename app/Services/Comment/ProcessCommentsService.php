@@ -32,4 +32,20 @@ class ProcessCommentsService
             throw new DomainException(__('validation.comment.not_found'));
         }
     }
+
+    public function updateComment($validationCreateCommentRequest , $comment_id){
+        try{
+            return $this->processCommentsRepository->update($validationCreateCommentRequest , $comment_id);  
+        }catch(DomainException){
+            throw new DomainException(__('validation.comment.update_error'));
+        }
+    }
+
+    public function deleteComment($comment_id){
+        try{
+            return $this->processCommentsRepository->delete($comment_id);
+        }catch(DomainException){
+            throw new DomainException(__('validation.comment.delete_error'));
+        }
+    }
 }
