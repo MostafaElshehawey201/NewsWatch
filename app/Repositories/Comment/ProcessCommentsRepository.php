@@ -16,10 +16,9 @@ class ProcessCommentsRepository
         //
     }
 
-    public function create($post_id, $validationCreateCommentRequest)
+    public function create($post_id, $validationCreateCommentRequest , $user_id)
     {
         $post = Post::find($post_id);
-        $user_id = Auth::guard('sanctum')->id();
         return Comment::create([
             'post_id' => $post->id,
             'user_id' => $user_id,
@@ -28,11 +27,11 @@ class ProcessCommentsRepository
     }
 
     public function find($comment_id){
-        return Comment::find($comment_id);
+        return Comment::findOrFail($comment_id);
     }
 
     public function update($validationCreateCommentRequest , $comment_id){
-        $comment = Comment::find($comment_id);
+        $comment = Comment::findOrFail($comment_id);
         $comment->update([
             'comment' => $validationCreateCommentRequest['content']
         ]);
@@ -40,7 +39,7 @@ class ProcessCommentsRepository
     }
 
     public function delete($comment_id){
-        $comment = Comment::find($comment_id);
+        $comment = Comment::findOrFail($comment_id);
         $comment->delete();
         return true;
     }

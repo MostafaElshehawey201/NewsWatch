@@ -2,8 +2,9 @@
 
 namespace App\Services\Comment;
 
-use App\Repositories\Comment\ProcessCommentsRepository;
 use DomainException;
+use Illuminate\Support\Facades\Auth;
+use App\Repositories\Comment\ProcessCommentsRepository;
 
 
 class ProcessCommentsService
@@ -18,7 +19,8 @@ class ProcessCommentsService
     public function createComment($validationCreateCommentRequest, $post_id)
     {
         try {
-            $comment = $this->processCommentsRepository->create($post_id, $validationCreateCommentRequest);
+            $user_id = Auth::guard('sanctum')->id();
+            $comment = $this->processCommentsRepository->create($post_id, $validationCreateCommentRequest , $user_id);
             return $comment;
         } catch (DomainException) {
             throw new DomainException(__('validation.comment.create_error'));

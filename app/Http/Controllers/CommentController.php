@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Comment\createCommentRequest;
 use App\Http\Requests\Comment\updateCommentRequest;
 use App\Services\Comment\ProcessCommentsService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Throwable;
 
 class CommentController extends Controller
 {
+    use AuthorizesRequests;
     public function __construct(protected ProcessCommentsService $processCommentsService) {}
     public function createComment(createCommentRequest $createCommentRequest, $post_id)
     {
@@ -69,7 +71,8 @@ class CommentController extends Controller
     {
         try {
             $validationUpdateCommentRequest = $updateCommentRequest->validated();
-            $this->processCommentsService->updateComment($validationUpdateCommentRequest, $comment_id);
+            $comment = $this->processCommentsService->updateComment($validationUpdateCommentRequest, $comment_id);
+            $this->authorize('update' , $comment);
             return response()->json([
                 "success" => true,
                 "data" => __('validation.comment.update_success'),
@@ -95,12 +98,13 @@ class CommentController extends Controller
 
     public function deleteComment($comment_id){
         try{
-            $this->processCommentsService->deleteComment($comment_id);
+            $comment = $this->processCommentsService->deleteComment($comment_id);
+            $this->authorize('delete' , $comment);
             return response()->json([
                 "success" => true,
                 "data" => __('validation.comment.delete_success'),
                 "errors" => null,
-            ], 200);
+            ], 204);
         } catch (\DomainException $e) {
             return response()->json([
                 "success" => false,

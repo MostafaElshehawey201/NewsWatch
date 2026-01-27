@@ -2,28 +2,30 @@
 
 namespace App\Providers;
 
-use App\Interfaces\Auth\AuthCheckOtpInterface;
-use App\Interfaces\Auth\AuthForgetPasswordInterface;
+use App\Models\Comment;
+use App\Policies\commentPolicy;
 use App\Interfaces\Auth\AuthInterface;
+use Illuminate\Support\ServiceProvider;
+use App\Interfaces\Post\CommentInterface;
+use App\Repositories\Auth\AuthRepository;
+use App\Interfaces\Post\EditPostInterface;
 use App\Interfaces\Auth\AuthLoginInterface;
+use App\Interfaces\Post\DeletePostInterface;
+use App\Interfaces\Post\PostCreateInterface;
+use App\Interfaces\Post\UpdatePostInterface;
+use App\Interfaces\Auth\AuthCheckOtpInterface;
+use App\Interfaces\Post\ShowAllPostsInterface;
+use App\Interfaces\User\updateProfileInterface;
+use App\Repositories\Post\PostProcessRepository;
+
+use App\Repositories\User\updateProfileRepository;
 use App\Interfaces\Auth\AuthResetPasswordInterface;
 use App\Interfaces\Post\AddPostToFavoriteInterface;
-use App\Interfaces\Post\CommentInterface;
-use App\Interfaces\Post\DeletePostInterface;
-use App\Interfaces\Post\EditPostInterface;
-use App\Interfaces\Post\PostCreateInterface;
-use App\Interfaces\Post\RemovePostFavoriteInterface;
-use App\Interfaces\Post\ShowAllPostsInterface;
 use App\Interfaces\Post\showPostsFavoriteInterface;
-use App\Interfaces\Post\UpdatePostInterface;
+use App\Interfaces\Auth\AuthForgetPasswordInterface;
+use App\Interfaces\Post\RemovePostFavoriteInterface;
 use App\Interfaces\Relation\SearchUserRelationInterface;
-
-use App\Interfaces\User\updateProfileInterface;
-use App\Repositories\Auth\AuthRepository;
-use App\Repositories\Post\PostProcessRepository;
 use App\Repositories\Relation\SearchUserRelationRepository;
-use App\Repositories\User\updateProfileRepository;
-use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -98,6 +100,10 @@ class AppServiceProvider extends ServiceProvider
         );
 
     } 
+
+    protected $policies =[
+        Comment::class => commentPolicy::class,
+    ];
 
     /**
      * Bootstrap any application services.
