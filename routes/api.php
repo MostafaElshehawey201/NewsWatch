@@ -7,6 +7,7 @@ use App\Http\Controllers\Posts\PostController;
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RelationUsersController;
+use App\Http\Controllers\SubComment\SubCommentController;
 
     Route::middleware('api')->prefix('auth')->group(function (){
         Route::post("register" , [AuthController::class , 'register'])->middleware('setApiLocalLang');
@@ -45,6 +46,11 @@ use App\Http\Controllers\RelationUsersController;
         Route::get('edit-comment/{comment_id}' , [CommentController::class , 'editComment']);
         Route::post('update-comment/{comment_id}' , [CommentController::class, 'updateComment']);
         Route::post('delete-comment/{comment_id}' , [CommentController::class, 'deleteComment']);
+    });
+
+    Route::middleware(['api' , 'setApiLocalLang' ])->prefix('sub-comments')->group(function(){
+        Route::post('create-sub-comment/{comment_id}' , [SubCommentController::class , 'createSubComment']);
+
     });
 
     Route::middleware(['api' , 'setApiLocalLang' , 'auth:sanctum'])->prefix('relation')->group(function(){
