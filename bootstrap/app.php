@@ -21,7 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json([
                 'success' => false,
                 'data' => null,
-                'errors' => $e->getMessage(),
+                'errors' => [
+                    "message" => $e->getMessage(),
+                    "line" => $e->getLine(),
+                    "file" => $e->getFile(),
+                ],
             ], 400);
         });
     })->create();

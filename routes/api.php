@@ -50,7 +50,8 @@ use App\Http\Controllers\SubComment\SubCommentController;
 
     Route::middleware(['api' , 'setApiLocalLang' ])->prefix('sub-comments')->group(function(){
         Route::post('create-sub-comment/{comment_id}' , [SubCommentController::class , 'createSubComment']);
-        Route::post('edit-sub-comment/{subComment_id}' , [SubCommentController::class , 'editSubCommentController']);
+        Route::post('edit-sub-comment/{subComment_id}' , [SubCommentController::class , 'editSubComment']);
+        Route::post('update-sub-comment/{subComment_id}' , [SubCommentController::class , 'updateSubComment']);
 
     });
 

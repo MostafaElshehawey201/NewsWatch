@@ -29,7 +29,20 @@ class SubCommentProcessRepository
         ]);
     }
 
-    public function findOrFailSubComment($subComment_id){
+    public function findOrFailSubComment($subComment_id)
+    {
         return SubComment::findOrFail($subComment_id);
+    }
+
+    public function findOrFailUpdateSubComment($subComment_id)
+    {
+        return SubComment::findOrFail($subComment_id);
+    }
+    public function update($DTO, $subComment_id)
+    {
+        $findSubComment = $this->findOrFailSubComment($subComment_id);
+        return $findSubComment->update([
+            "content" => $DTO->content,
+        ]);
     }
 }
