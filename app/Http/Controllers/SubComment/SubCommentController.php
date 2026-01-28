@@ -6,18 +6,19 @@ use Throwable;
 use DomainException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\DataTransferObject\DataTransferObjectSubComment;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SubComment\SubCommentProcessService;
 use App\Http\Requests\SubComment\CreateSubCommentRequest;
+use App\Http\DataTransferObject\DataTransferObjectSubComment;
+use App\Http\Resources\CommentResource\EditSubCommentResource;
+use App\Http\Resources\CommentResource\CreateSubCommentResource;
 
 class SubCommentController extends Controller
 {
-    public function __construct(){
+    public function __construct(protected SubCommentProcessService $subCommentProcessService){
 
     }
     public function createSubComment(CreateSubCommentRequest $createSubCommentRequest , $comment_id){
-        try{
         $validation = $createSubCommentRequest->validated();
         $DTO = new DataTransferObjectSubComment([
             'content' => $validation['content'],
@@ -25,27 +26,11 @@ class SubCommentController extends Controller
             'user_id' => Auth::guard('sanctum')->id(),
         ]);
         $SubCommentDTOInstance = app()->make(SubCommentProcessService::class)->methodCreateSubComment($DTO);
-        return response()->json([
-            "success" => true,
-            "data" => $SubCommentDTOInstance,
-            "errors"=>null,
-        ],201);
-        }catch(DomainException $e){
-            return response()->json([
-                "success" => false,
-                "data" => null,
-                "errors" => $e->getMessage(),
-            ],400);
-        }catch(Throwable $e){
-            return response()->json([
-                "success" => false,
-                "data" => null,
-                "errors" => [
-                    "message" => $e->getMessage(),
-                    "line" => $e->getLine(),
-                    "file" => $e->getFile(),
-                ]
-            ],500);
-        }
+        return CreateSubCommentResource::make($SubCommentDTOInstance);
+    }
+
+    public function editSubCommentController($subComment_id){
+        $SubCommentEdit = $this->subCommentProcessService->methodEditSubComment($subComment_id);
+        return EditSubCommentResource::make($SubCommentEdit);
     }
 }

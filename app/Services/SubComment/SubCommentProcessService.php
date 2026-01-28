@@ -32,4 +32,8 @@ class SubCommentProcessService
             return $this->sub_comment_process_repository->create($DTO);
         }
     }
+
+    public function methodEditSubComment($subComment_id){
+        return $this->sub_comment_process_repository->findOrFailSubComment($subComment_id);
+    }
 }

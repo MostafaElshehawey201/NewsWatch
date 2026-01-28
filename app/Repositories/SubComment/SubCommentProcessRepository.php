@@ -28,4 +28,8 @@ class SubCommentProcessRepository
             "content" => $DTO->content,
         ]);
     }
+
+    public function findOrFailSubComment($subComment_id){
+        return SubComment::findOrFail($subComment_id);
+    }
 }
