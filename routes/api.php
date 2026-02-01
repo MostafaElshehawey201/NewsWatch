@@ -30,6 +30,7 @@ use App\Http\Controllers\SubComment\SubCommentController;
         Route::get('categories' , 'categories')->middleware('auth:sanctum');
         Route::get('categories/{category_id}/sub-category' , 'subCategory')->middleware('auth:sanctum');
     });
+
     Route::middleware(['api' , 'auth:sanctum' , 'setApiLocalLang'])->prefix('post')->group(function(){
         Route::post('{category_id}/create' , [PostController::class , 'createPost']);
         Route::get('show' , [PostController::class , 'showPosts']);
@@ -52,7 +53,7 @@ use App\Http\Controllers\SubComment\SubCommentController;
         Route::post('create-sub-comment/{comment_id}' , [SubCommentController::class , 'createSubComment']);
         Route::post('edit-sub-comment/{subComment_id}' , [SubCommentController::class , 'editSubComment']);
         Route::post('update-sub-comment/{subComment_id}' , [SubCommentController::class , 'updateSubComment']);
-
+        Route::post('delete-sub-comment/{subComment_id}' , [SubCommentController::class , 'deleteSubComment']);
     });
 
     Route::middleware(['api' , 'setApiLocalLang' , 'auth:sanctum'])->prefix('relation')->group(function(){

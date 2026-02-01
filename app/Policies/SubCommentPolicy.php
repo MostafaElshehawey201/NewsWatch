@@ -45,7 +45,7 @@ class SubCommentPolicy
      */
     public function delete(User $user, SubComment $subComment): bool
     {
-        return $user->id === $subComment->suer_id;
+        return $user->id === $subComment->user_id;
     }
 
     /**

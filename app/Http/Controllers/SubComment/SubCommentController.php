@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\SubComment\SubCommentProcessService;
 use App\Http\Requests\SubComment\CreateSubCommentRequest;
 use App\Http\Requests\SubComment\UpdateSubCommentRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\DataTransferObject\DataTransferObjectSubComment;
 use App\Http\Resources\CommentResource\EditSubCommentResource;
 use App\Http\Resources\CommentResource\CreateSubCommentResource;
+use App\Http\Resources\CommentResource\DeleteSubCommentResource;
 use App\Http\Resources\CommentResource\UpdateSubCommentResource;
 use App\Http\DataTransferObject\DataTransferObjectSubCommentUpdate;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SubCommentController extends Controller
 {
@@ -51,5 +52,12 @@ class SubCommentController extends Controller
         $update = $this->subCommentProcessService->methodUpdateSubComment($DTO);
         return UpdateSubCommentResource::make($update);
         
+    }
+
+    public function deleteSubComment($subComment_id){
+        $subComment = $this->subCommentProcessService->methodEditSubComment($subComment_id);
+        $this->authorize('delete' , $subComment);
+        $delete = $this->subCommentProcessService->methodDeleteSubComment($subComment_id);
+        return DeleteSubCommentResource::make($delete);
     }
 }

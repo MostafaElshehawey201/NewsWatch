@@ -48,4 +48,12 @@ class SubCommentProcessService
             throw new DomainException(__('validation.subComment.content.empty'));
         }
     }
+
+    public function methodDeleteSubComment($subComment_id){
+        if ($subComment_id <= 0) {
+            throw new DomainException(__('validation.SubComment_id.negative'));
+        }
+        $this->sub_comment_process_repository->findOrFailDeleteSubComment($subComment_id);
+        return $this->sub_comment_process_repository->delete($subComment_id);
+    }
 }

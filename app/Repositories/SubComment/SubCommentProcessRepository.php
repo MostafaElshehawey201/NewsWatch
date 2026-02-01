@@ -45,4 +45,13 @@ class SubCommentProcessRepository
             "content" => $DTO->content,
         ]);
     }
+
+    public function findOrFailDeleteSubComment($subComment_id){
+        return SubComment::findOrFail($subComment_id);
+    }
+
+    public function delete($subComment_id){
+        $subComment = $this->findOrFailSubComment($subComment_id);
+        return $subComment->delete();
+    }
 }
